@@ -204,7 +204,7 @@ $(function() {
 
 	/*
 		move(world): move to this world
-			and update game
+			and set game
 	*/
 	function move(world) {
 		if(currWorld != world) {
@@ -222,28 +222,29 @@ $(function() {
 		$("#cmds").prepend("<a href='javascript:"+cmd+"'>"+s+"</a><br/>");
 	}
 
-	function updateMoney() {
+	function setMoney() {
 		$("#moneyCell").html("Money: " + pc.money + " gold");
 	}
 
-	function updateBp() {
+	function setBp() {
 		$("#bpCell").html("BP: " + pc.bp);
 	}
 
-	function updateLevel() {
+	function setLevel() {
 		$("#levelCell").html("Level: " + pc.level);
 	}
 
-	function updateMp() {
+	function setMp() {
 		$("#mpCell").html("MP: " + pc.mp);
 	}
 
-	function updateHp() {
+	function setHp() {
 		$("#hpCell").html("HP: " + pc.hp);
 	}
 
 	function handleCmd() {
 		var input = $("#gameInput").val(); 	// get val
+		var valid = 1;
 		
 		$("#gameInput").val("");			// clear val
 		words = input.toLowerCase().split(" ");
@@ -273,8 +274,15 @@ $(function() {
 				break;
 			default:
 				console.log("no such command");
+				valid = 0;
 		}	
 
+		if(!valid) {
+			$('#inputError').show();
+			$('#inputError').html("<i>Invalid Command</i>");
+		} else {
+			$('#inputError').hide();
+		}
 	}
 
 	/*
@@ -348,16 +356,17 @@ $(function() {
 
 		$("#nameCell").html("Name: " + pc.name);
 		
-		updateLevel();
-		updateHp();
-		updateMp();
-		updateBp();
-		updateMoney();
+		setLevel();
+		setHp();
+		setMp();
+		setBp();
+		setMoney();
 
 		$("#gameForm").show();
 		$("#gameInput").show();
 		$("#cmd").show();
 		$("#cmdWindow").show();
+		$("#inputContainer").show();
 
 		$("#textWindow").html("Welcome to RPG</br>");
 		com("You find "+ pc.money +" gold on the ground");
@@ -503,7 +512,7 @@ dictionary = {
 		pc.money -= currWorld.npcs[personIndex].carry[itemIndex].price; // subtract price from user
 		pc.carry.push(currWorld.npcs[personIndex].carry[itemIndex]); 	// add item to user's carry
 		currWorld.npcs[personIndex].carry.splice(itemIndex,1); 			// remove item from npc
-		updateMoney();
+		setMoney();
 	},
 	sell: function() { // sell Item to Person
 		var args = words.slice(1),
@@ -545,7 +554,7 @@ dictionary = {
 		pc.money += pc.carry[itemIndex].price/2;
 		currWorld.npcs[personIndex].carry.push(pc.carry[itemIndex]);
 		pc.carry.splice(itemIndex,1);
-		updateMoney();
+		setMoney();
 	},
 	battle: function() {
 		var creeps = [];

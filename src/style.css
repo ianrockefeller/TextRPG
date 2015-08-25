@@ -46,3 +46,11 @@
 	font-weight: bold;
 }
 
+#inputError {
+	display: inline;
+	padding-left: 1em;
+}
+
+#inputContainer {
+	display: none;
+}

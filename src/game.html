@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>RPG</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+	<div id="container">
+		<div id="text">
+			<div id="textWindow">
+				<p>>>>>>>>>>>>>>>>>>>>>>>>>></p>
+				<p>Welcome, fill out the form to the right</p>
+				<p>>>>>>>>>>>>>>>>>>>>>>>>>></p>
+			</div>
+			<input type="text" id="gameInput" />
+			<button type="button" id="cmd">Command</button>
+		</div>
+		
+		<div id="gameWindow">
+
+			<form id="startForm">
+				<table class="formTable">
+					<tr>
+						<td>Name: </td>
+						<td><input type="text" name="name" id="nameInput" autocomplete="off" /></td>
+					</tr>
+					<tr>
+						<td>Email: </td>
+						<td><input type="text" name="email" id="emailInput" autocomplete="off" /></td>
+					</tr>					
+					<tr>
+						<td>Health: </td>
+						<td><input type="number" name="health" id="healthInput"  /></td>
+					</tr>
+					<tr>
+						<td>Mana: </td>
+						<td><div id="calcMana"></div></td>
+					</tr>
+					<tr>
+						<td>Class points: </td>
+						<td>
+							<input type="radio" name="class" value="power" id="powerRadio" />Power
+							<input type="radio" name="class" value="magic" id="magicRadio" />Magic
+							<input type="radio" name="class" value="hybrid" id="hybridRadio" />Hybrid
+						</td>
+					</tr>
+				</table>
+				<button type="button" id="startFormButton">Submit</button>
+			</form>
+			<form id="gameForm">
+				<table class="formTable">
+					<tr>
+						<td colspan='3' id="nameCell"></td>
+					</tr>
+					<tr>
+						<td id="hpCell"></td>
+						<td colspan='2' id="mpCell"></td>
+					</tr>
+					<tr>
+						<td colspan='3' id="bpCell"></td>
+					</tr>
+					<tr>
+						<td id="levelCell"></td>
+						<td colspan='2' id="moneyCell"></td>
+					</tr>
+				</table>
+			</form>
+		</div>
+		<div style="clear: both;"></div>
+
+		<div id="cmdWindow"><span style='color: #00ff00;'>Past Commands</span><br/><div id="cmds"></div></div>
+	</div>
+</body>
+<script src="functions.js"></script>
+<script src="battle.js"></script>
+<script src="game.js"></script>	
+</html>

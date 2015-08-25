@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="battle_test.js"></script>
+	<script>
+/* TEST PHYSICAL DAMAGE CALCULATIONS */	
+var DM = 16; 
+var stat = 127; 
+var e_def = 34; 
+
+var bd = baseDamageFormula(DM, stat);
+var d = defenseFormula(e_def);
+var dr = damageReductionFormula(bd, d);
+var fd = physicalFinalDamageFormula(DM, stat, e_def);
+
+console.log("physicalFormula => " + bd);
+console.log("defenseFormula => " + d);
+console.log("damageReductionFormula => " + dr);
+console.log("finalDamageFormula => " + fd);
+/* END PHYSICAL DAMAGE CALCULATIONS */
+/* TEST MAGIC DAMAGE CALCULATIONS */
+DM = 70;
+stat = 255;
+var e_mdef = 1;
+
+bd = baseMagicFormula(DM, stat);
+d = defenseFormula(e_mdef);
+dr = damageReductionFormula(bd, d);
+fd = magicFinalFormula(DM, stat, e_mdef);
+console.log("magicFormula => " + bd);
+console.log("defenseFormula => " + d);
+console.log("damageReductionFormula => " + dr);
+console.log("finalMagicFormula => " + fd);
+/* END PHYSICAL DAMAGE CALCULATIONS */
+/* TEST HEAL CALCULATIONS */
+var HL = 80;
+stat = 240;
+var heal = healFormula(HL, stat);
+console.log("healFormula => " + heal);
+/* END HEAL CALCULATIONS */
+	</script>
+</head>
+<body>
+	
+</body>
+</html>

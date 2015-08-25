@@ -1,0 +1,868 @@
+        SSSSSSSSSSSSSSS                                  EEEEEEEEEEEEEEEEEE
+      SS:::::::::::::::S                                 E::::::::::::::::E
+     S:::::SSSSSS::::::S                                 E::::::::::::::::E
+     S:::::S     SSSSSSS                                 EE:::::EEEEEE::::E
+     S:::::S                                               E::::E    EEEEEE
+     S:::::S                TATISTIC  MECHANICS  GUID      E::::E
+      S::::SSSS                                            E:::::EEEEEEE
+       SS::::::SSSSS                                       E:::::::::::E
+         SSS::::::::SS       Final Fantasy X SMG v1.0      E:::::::::::E
+            SSSSSS::::S    ----------------------------    E:::::EEEEEEE
+                 S:::::S       Written By SinirothX        E::::E
+                 S:::::S  InfiniteZero000[at]aol[dot]com   E::::E    EEEEEE
+     SSSSSSS     S:::::S           And SClemmons         EE:::::EEEEEE::::E
+     S::::::SSSSSS:::::S swtzwondrboy20[at]yahoo[dot]com E::::::::::::::::E
+     S:::::::::::::::SS                                  E::::::::::::::::E
+      SSSSSSSSSSSSSSS                                    EEEEEEEEEEEEEEEEEE
+
+===============================================================================
+```````````````````````````````````````````````````````````````````````````````
+                               TABLE OF CONTENTS
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+===============================================================================
+
+I. COPYRIGHT
+
+II. STRENGTH & DEFENSE
+    a) The Physical Formula
+    b) 'Base Damage' Reduction
+    c) Damage Modifications
+    d) Various Notes
+
+III. MAGIC & MAGIC DEFENSE
+     a) The Magic Formula
+     b) The Healing Formula
+     c) Defense & Magic Defense Effects
+     d) Damage Modifications
+
+IV. EVASION & ACCURACY
+    a) Party's Accuracy Percentage and Accuracy Number Calculation
+    d) Specifics of Darkness
+    c) Enemies' Accuracy Percentage Calculation
+    d) Determining Hit Percentage
+
+V. AGILITY
+   a) Determining 'Tick Speed' Using Agility
+   b) Initial Counter Value
+
+VI. LUCK
+    a) What It Affects
+    b) Common Misconception
+
+VII. CONSTANT VALUES     **COMING SOON**
+     a) Enemy Attacks
+     b) Abilities
+
+VIII. HIT PERCENTAGE     **COMING SOON**
+
+IX. ACKNOWLEDGEMENTS
+
+===============================================================================
+```````````````````````````````````````````````````````````````````````````````
+                                 I. COPYRIGHT
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+===============================================================================
+
+This document is Copyright © 2004; SinirothX. It is my intellectual property,
+and is not permitted to be reproduced or distributed at all. I also, as of this
+point, will not allow ANY sites (other than the ones who are already listed to
+the below) to host this guide on their websites. Also, no one may use this info
+in here as a basis for their own FAQ...UNLESS they contact me for permission to
+use any of the data contained herein.
+
+Now, here is the list of the only sites which can host this document:
+GameFAQs - www.gamefaqs.com
+Neoseeker - www.neoseeker.com
+IGN - faqs.ign.com
+
+===============================================================================
+```````````````````````````````````````````````````````````````````````````````
+                            II. STRENGTH & DEFENSE
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+===============================================================================
+
+ ___________________________
+/  a) The Physical Formula  \
+===============================================================================
+
+The following formula is the basis for figuring the damage that will be caused
+by a physical attack. Note: this does not just include the 'Attack' command,
+but also any other attack with physical properities:
+
+                      [{(Stat^3 ÷ 32) + 32} x DmCon ÷16]
+
+Where...
+'Stat' = Strength + Cheer [*]
+'DmCon' = Damage Constant [**]
+
+[*] -> The lowest value possible for Str stat is 0, while it can also be
+       situated anywhere after that =< 255 [=< is to be read as less than or
+       equal to].
+[**] -> The 'Attack' command has DmCon of 16. Other attacks have different
+        ones which obviously are used to modify the damage done.
+
+So...here is an example using simply the 'Attack' command and an Str stat of
+127. Note: Cheer is not in effect.
+
+Step 1 ------------------------------------- [{(Stat^3 ÷ 32) + 32} x DmCon ÷16]
+Step 2 ---------------------------------------- [{(127^3 ÷ 32) + 32} x 16 ÷ 16]
+Step 3 -------------------------------------- [{(2048383 ÷ 32) + 32} x 16 ÷ 16]
+Step 4 --------------------------------------------------- [{(64011) + 32} x 1]
+Step 5 -------------------------------------------------------- [{(64043 x 1)}]
+Step 6 ---------------------------------------------------- Base Damage = 64043
+
+However...there is another aspect to take into consideration when determining
+final damage, covered in the subsequent subsection.
+
+ ______________________________
+/  b) 'Base Damage' Reduction  \
+===============================================================================
+
+Note: Magic Defense will have nothing to do with this section. It simply uses
+the same formula as Defense, therefore it is at least mentioned.
+
+Putting it more simply, reduction of base damage due to Defense/Magic Defense.
+The defensive stat is converted to an integer between 0 and 730 (called
+"DefNum"), which is then used to adjust the damage. Terence's formula for
+DefNum fits for the high and low Defense values, but it is off by 1 for some of
+the middle values.
+
+Now, to figure out the integer for DefNum (briefly mentioned to the above),
+you would utilize the following formula.
+
+                        [{(Def - 280.4)^2} ÷ 110] + 16
+
+In that formula, Def = Defense stat.
+- Ok, once you have purposively calculated DefNum (using that formula), it is
+to be inserted into this Damage formula:
+
+                             [Dmg * DefNum ÷ 730]
+
+Another factor that we cannot disregard when figuring the reduction of base
+damage. That, of course, is the Cheer/Focus damage reduction, determined by the
+following formula.
+
+                           [Dmg * (15 - Cheer) ÷ 15]
+
+Effect of Defense or Magic Def:
+Final Damage = Base Damage * {730 - (Def * 51 - Def^2 ÷ 11) ÷ 10} ÷ 730
+
+* - substitute MDef for Def accordingly.
+
+Now let's follow these formulae, and formulate them into a flowchart, using the
+following example (of course, highly variable), and figure out the Final Damage.
+Str = 127, no Cheer, 'Attack' command used, enemy Def = 34.
+
+Starting from the end of last time:
+Step 1 ------------------------------------- [{(Stat^3 ÷ 32) + 32} x DmCon ÷16]
+Step 2 ---------------------------------------- [{(127^3 ÷ 32) + 32} x 16 ÷ 16]
+Step 3 -------------------------------------- [{(2048383 ÷ 32) + 32} x 16 ÷ 16]
+Step 4 --------------------------------------------------- [{(64011) + 32} x 1]
+Step 5 -------------------------------------------------------- [{(64043 x 1)}]
+Step 6 ---------------------------------------------------- Base Damage = 64043
+Step 7 ----------------------------------------- [{(Def - 280.4)^2} ÷ 110] + 16
+Step 8 ------------------------------------------ [{(34 - 280.4)^2} ÷ 110] + 16
+Step 9 ------------------------------------------------- [(-246)^2) ÷ 110] + 16
+Step 10 ---------------------------------------------------- [60516 ÷ 110] + 16
+Step 11 ------------------------------------------------------------ [550] + 16
+Step 12 ---------------------------------------------------------- DefNum = 566
+Step 13 ---------------------------------------------- [BaseDmg * DefNum ÷ 730]
+Step 14 --------------------------------------------------- [64043 * 566 ÷ 730]
+Step 15 ------------------------------------------------------ [36248338 ÷ 730]
+Step 16 ------------------------------------------------- Base Damage 2 = 49655
+Step 17 ------------ Base Damage 2 * {730 - (Def * 51 - Def^2 ÷ 11) ÷ 10} ÷ 730
+Step 18 ---------------------- 49655 * {730 - (34 * 51 - 34^2 ÷ 11) ÷ 10} ÷ 730
+Step 19 ------------------------- 49655 * {730 - (1734 - 1156 ÷ 11) ÷ 10} ÷ 730
+Step 20 ------------------------------- 49655 * {730 - (1734 - 105) ÷ 10} ÷ 730
+Step 21 ------------------------------------- 49655 * {730 - (1629) ÷ 10} ÷ 730
+Step 22 --------------------------------------------- 49655 * {730 - 162} ÷ 730
+Step 23 ----------------------------------------------------- 49655 * 568 ÷ 730
+Step 24 -------------------------------------------------- Final Damage = 38635
+
+ ___________________________
+/  c) Damage Modifications  \
+===============================================================================
+
+For the below list of modifiers, I will be using 'Base Damage 2' listed above,
+and consider it as if it were 'Final Damage.'
+
+-------------------------------------------------------------------------------
+| Strength +x% (3%, 5%, 10%, 20%) | 49655 + 3%[1489] = 51144                  |
+|---------------------------------| 49655 + 5%[2482] = 52137                  |
+| Increases physical damage by x% | 49655 + 10%[4965] = 54620                 |
+|                                 | 49655 + 20%[9931] = 59586                 |
+-------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------
+| Inherent Armor property         | 49655 ÷ 3 = 16551                         |
+|---------------------------------|-------------------------------------------|
+| Cuts physical damage to 1/3 if  | Note: that Celestial weapons do not deal  |
+| attack is not Piercing. Armor   | piercing damage, however, an attack       |
+| Break removes Armor reduces Def | performed by an Aeon will indeed be a     |
+| to zero.                        | piercing attack.                          |
+-------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------
+| Defend (Triangle or Sentinel)   | 49655 ÷ 2 = 24827                         |
+|---------------------------------|                                           |
+| Cuts physical damage by 1/2     |                                           |
+-------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------
+| Protect                         | 49655 ÷ 2 = 24827                         |
+|---------------------------------|                                           |
+| Cuts physical damage by 1/2     |                                           |
+-------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------
+| Power Break                     | 49655 ÷ 2 = 24827                         |
+|---------------------------------|                                           |
+| Cuts physical damage by 1/2     |                                           |
+-------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------
+| Defense +x% (3%, 5%, 10%, 20%)  | 49655 - 3%[1489] = 48166                  |
+|---------------------------------| 49655 - 5%[2482] = 47173                  |
+| Decreases physical damage by x% | 49655 - 10%[4965] = 44690                 |
+|                                 | 49655 - 20%[9931] = 39724                 |
+-------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------
+| Cheer                           | First Use: 49655 - 3310 = 46345           |
+|---------------------------------| Second Use: 49655 - 4137 = 45518          |
+| Cuts damage that defense is     | Third Use: 49655 - 5517 = 44138           |
+| considered in by 1/15th each    | Fourth Use: 49655 - 8275 = 41380          |
+| time (note: can be used 5 times)| Fifth Use: 49655 - 16551 = 33104          |
+-------------------------------------------------------------------------------
+
+*********************************************************
+* Celestial Modifiers (applies to physical damage only) *
+*********************************************************
+
+-------------------------------------------------------------------------------
+| For Caladbolg, World Champion, Spirit Lance and Godhand                     |
+|-----------------------------------------------------------------------------|
+| (10 + [100 * User's current HP ÷ User's Max HP]) ÷ 110                      |
+-------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------
+| For Nirvana and Onion Knight                                                |
+|-----------------------------------------------------------------------------|
+| (10 + [100 * User's current MP ÷ User's Max MP]) ÷ 110                      |
+-------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------
+| For Masamune                                                                |
+|-----------------------------------------------------------------------------|
+| (130 - [100 * Auron's current HP ÷ Auron's Max HP]) ÷ 60                    |
+-------------------------------------------------------------------------------
+
+* Multiply modifiers together to get final result (but add together all
+Strength/Defense +x% modifiers before mutliplying).
+
+ ____________________
+/  d) Various Notes  \
+===============================================================================
+
+Thanks to many on the FFX message board for this:
+
+Note that unlike the previous modifiers, Cheer does not apply to physical type
+damage specifically - it applies to anything affected by Defense. Many people
+assume anything that uses Strength is physical, but this is not so. (Note the
+"physical" formula" is not exclusively used for "physical" damage). There are
+many litmus tests for physical, but the simplest is probably that if Protect
+affects it, then it's physical. In most cases physical attacks and Strength-
+based attacks are the same but there are many exceptions (overdrives never do
+physical damage).
+
+This means that Cheer will work against non-physical attacks like overdrives
+(e.g. Triumphant Grasp) but not physicals that ignore Defense
+(e.g. Fangs of Chaos). Similarly, all the other modifiers will work against
+physicals that ignore Defense (even Defense +x%), but not against non-physicals,
+even if they are affected by Defense.
+
+===============================================================================
+```````````````````````````````````````````````````````````````````````````````
+                          III. MAGIC & MAGIC DEFENSE
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+===============================================================================
+
+ ________________________
+/  a) The Magic Formula  \
+===============================================================================
+
+The following formula is the basis for figuring the damage that will be caused
+by a magical attack:
+
+                    [DmCon * ([Stat ^ 2 ÷ 6] + DmCon) ÷ 4]
+
+Where...
+'Stat' = Magic + Focus [*]
+'DmCon' = Damage Constant [**]
+
+[*] -> The lowest value possible for Mag stat is 0, while it can also be
+       situated anywhere after that =< 255 [=< is to be read as less than or
+       equal to].
+[**] -> All magics have what is called a Damage Constant. It's a constant value
+        used in the formula and adjusts the amount of damage said magic will
+        do.
+
+So...here is an example of using Fira with 255 Magic. Note: Focus is not in
+effect.
+
+Step 1 --------------------------------- [DmCon * ([Stat ^ 2 ÷ 6] + DmCon) ÷ 4]
+Step 2 ------------------------------------------ [24 * {[255^2 ÷ 6] + 24) ÷ 4]
+Step 3 ------------------------------------------ [24 * ([65025 ÷ 6] + 24) ÷ 4]
+Step 4 ------------------------------------------------ [24 * (10837 + 24) ÷ 4]
+Step 5 ----------------------------------------------------- [24 * (10861) ÷ 4]
+Step 6 ----------------------------------------------------------- [260676 ÷ 4]
+Step 7 ---------------------------------------------------- Base Damage = 65169
+
+However...there is another aspect to take into consideration when determining
+final damage, covered in the subdivision 'c)' of this section titled 'Defense &
+Magic Defense Effects.'
+
+ __________________________
+/  b) The Healing Formula  \
+===============================================================================
+
+The following formula is the basis for figuring the amount of HP that would
+be recovered should you choose to utilize a healing spell (such as Curaga)
+during battle, should situations become dire.
+
+                         HlCon * [(Stat + HlCon) ÷ 2]
+
+Where...
+'Stat' = Magic + Focus [*]
+'HlCon' = Healing Constant [**]
+
+[*] -> The lowest value possible for Mag stat is 0, while it can also be
+       situated anywhere after that =< 255 [=< is to be read as less than or
+       equal to].
+[**] -> All healing magics have what is called a Damage Constant. It's a
+        constant value used in the formula and adjusts the amount of health
+        said magic will cure.
+
+So...here is an example of using Curaga with 240 Magic. Note: Focus is not in
+effect.
+
+Step 1 ------------------------------------------- HlCon * [(Stat + HlCon) ÷ 2]
+Step 2 -------------------------------------------------- 80 * [(240 + 80) ÷ 2]
+Step 3 ------------------------------------------------------- 80 * [(320) ÷ 2]
+Step 4 ----------------------------------------------------------- 80 * [(160)]
+Step 5 -------------------------------------------------- Base Recovery = 12800
+
+ ________________________________________
+/  c) Defense & Magic Defense Reduction  \
+===============================================================================
+
+Note: Defense is completely irrelevant in this section. However, it does use
+the same formula, therefore it's at least given a mention.
+
+Putting it more simply, reduction of base damage due to Defense/Magic Defense.
+The defensive stat is converted to an integer between 0 and 730 (called
+"MDefNum"), which is then used to adjust the damage. Terence's formula for
+DefNum fits for the high and low Defense values, but it is off by 1 for some of
+the middle values.
+
+Now, to figure out the integer for DefNum (briefly mentioned to the above),
+you would utilize the following formula.
+
+                        [{(MDef - 280.4)^2} ÷ 110] + 16
+
+In that formula, Def = Defense stat.
+- Ok, once you have purposively calculated DefNum (using that formula), it is
+to be inserted into this Damage formula:
+
+                             [Dmg * MDefNum ÷ 730]
+
+Another factor that we cannot disregard when figuring the reduction of base
+damage. That, of course, is the Cheer/Focus damage reduction, determined by the
+following formula.
+
+                           [Dmg * (15 - Cheer) ÷ 15]
+
+Effect of Defense or Magic Def:
+Final Damage = Base Damage * {730 - (Def * 51 - Def^2 ÷ 11) ÷ 10} ÷ 730
+
+* - substitute MDef for Def accordingly.
+
+Now let's follow these formulae, and formulate them into a flowchart, using the
+following example (of course, highly variable), and figure out the Final Damage.
+Mag = 255, no focus, Ultima is used, enemy MDef = 1 (we're not picking up where
+we left off in 'The Magic Formula' this time):
+
+Step 1 ----------------------------------- [DmCon * ([Stat^2 ÷ 6] + DmCon) ÷ 4]
+Step 2 ------------------------------------------ [70 * ([255^2 ÷ 6] + 70) ÷ 4]
+Step 3 ------------------------------------------ [70 * ([65025 ÷ 6] + 70) ÷ 4]
+Step 4 ------------------------------------------------ [70 * (10837 + 70) ÷ 4]
+Step 5 ----------------------------------------------------- [70 * (10907) ÷ 4]
+Step 6 ------------------------------------ Base Damage = 190872 [cut to 99999]
+Step 7 ---------------------------------------- [{(MDef - 280.4)^2} ÷ 110] + 16
+Step 8 ------------------------------------------- [{(1 - 280.4)^2} ÷ 110] + 16
+Step 9 ---------------------------------------------- [{(-279.4)^2} ÷ 110] + 16
+Step 10 -------------------------------------------------- [(78064) ÷ 110] + 16
+Step 11 ------------------------------------------------------------ [709] + 16
+Step 12 --------------------------------------------------------- MDefNum = 725
+Step 13 --------------------------------------------- [BaseDmg * MDefNum ÷ 730]
+Step 14 --------------------------------------------------- [99999 * 725 ÷ 730]
+Step 15 ------------------------------------------------- Base Damage 2 = 99314
+Step 16 ---------- Base Damage 2 * {730 - (MDef * 51 - MDef^2 ÷ 11) ÷ 10} ÷ 730
+Step 17 ------------------------ 99314 * {730 - (1 * 51 - 1^2 ÷ 11) ÷ 10} ÷ 730
+Step 18 ------------------------------ 99314 * {730 - (51 - 1 ÷ 11) ÷ 10} ÷ 730
+Step 19 --------------------------------------- 99314 * {730 - (49) ÷ 10} ÷ 730
+Step 20 ----------------------------------------------------- 99314 * 725 ÷ 730
+Step 21 -------------------------------------------------- Final Damage = 98633
+
+Please, note: Nova possesses base 70 and does Magic damage, however it uses the
+physical damage formula.
+
+ ___________________________
+/  d) Damage Modifications  \
+===============================================================================
+
+-------------------------------------------------------------------------------
+| Magic Booster                      | 3542 ÷ 2 = 1771                        |
+|------------------------------------|                                        |
+| Increases magical damage by 1/2    |                                        |
+-------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------
+| Strength +x% (3%, 5%, 10%, 20%) | 3542 + 3%[106] = 3648                     |
+|---------------------------------| 3542 + 5%[177] = 3719                     |
+| Increases physical damage by x% | 3542 + 10%[354] = 3896                    |
+|                                 | 3542 + 20%[708] = 4250                    |
+-------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------
+| Shell                           | 3542 ÷ 2 = 1771                           |
+|---------------------------------|                                           |
+| Cuts magical damage by 1/2      |                                           |
+-------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------
+| Mental Break                    | 3542 ÷ 2 = 1771                           |
+|---------------------------------|                                           |
+| Cuts magical damage by 1/2      |                                           |
+-------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------
+| MDefense +x% (3%, 5%, 10%, 20%) | 3542 - 3%[106] = 3436                     |
+|---------------------------------| 3542 - 5%[177] = 3365                     |
+| Decreases magical damage by x%  | 3542 - 10%[354] = 3188                    |
+|                                 | 3542 - 20%[708] = 2834                    |
+-------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------
+| Focus                           | First Use: 3542 - 236 = 3306              |
+|---------------------------------| Second Use: 3542 - 295 = 3247             |
+| Cuts damage that MagicDefense is| Third Use: 3542 - 393 = 3149              |
+| considered in by 1/15th each    | Fourth Use: 3542 - 590 = 2952             |
+| time (note: can be used 5 times)| Fifth Use: 3542 - 1180 = 2362             |
+-------------------------------------------------------------------------------
+
+Mental Break reduces Magic Def to 0. Note magical "damage" includes healing.
+Like with physicals, "magical" damage applies only to stuff affected by Shell,
+not stuff affected by Magic Def in general. So Fury does not do magical damage.
+
+===============================================================================
+```````````````````````````````````````````````````````````````````````````````
+                            IV. EVASION & ACCURACY
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+===============================================================================
+
+Suppose that there is an integer called Accuracy%. This is the percentage
+chance of an attack hitting the target, considering only Accuracy and Evasion.
+Accuracy% is calculated in different ways for "character attacks" (made by
+your party) and "monster attacks" (made by the enemy).
+
+For character attacks, the game makes an intermediate calcluation of an
+integer that we'll call "AcNum":
+
+AcNum = [AttackerAccuracy * 0.4 - TargetEvasion + 9]
+
+"AcNum" is then converted to Accuracy% using the following schedule:
+
+AcNum.......................Accuracy%
+0 or less..........................25
+1-2................................30
+3-4................................40
+5..................................50
+6..................................60
+7..................................80
+8 or greater......................100
+
+One thing that should be majorly noted about that list. Say a character is
+AcNum 7, but is currently augmented by Darkness. Normally, you'd think their
+Acc% would be 80...however, with the affliction of Darkness it becomes 10
+automatically. This is the same with all AcNums..if a character experiences
+Darkness, their Acc% is right away 10 until Darkness is dispelled, and then
+once again becomes normal.
+
+For monster attacks, the calculation of Accuracy% is a bit simpler:
+
+                  Accuracy% = (SkillAccuracy - TargetEvasion)
+
+Where...
+SkillAccuracy -> An integer based on an enemy's attack.
+
+Under whichever insinuendo, enemy or character, at this point, Accuracy% has
+been calculated
+
+Hit% = Accuracy% + AttackerLuck - TargetLuck
+
+Where...
+'Hit%' = the chance of the attack hitting.
+
+Note that if an enemy has 111+ Evasion, your Accuracy is irrelevant, your base
+chance of hitting will never be better than 25% before Luck is considered (the
+main reason why more Luck can be totally different from more Accuracy).
+
+===============================================================================
+```````````````````````````````````````````````````````````````````````````````
+                                  V. AGILITY
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+===============================================================================
+
+ _____________________________________________
+/  a) Determining 'Tick Speed' Using Agility  \
+===============================================================================
+
+First, you must be introduced to what Tick Speed is:
+
+From Terence's mechanics data:
+
+"The CTB system works on a system of clock ticks, very similar to FFT. There
+are, of course, differences....
+Each monster and party member have a counter. Every tick, this counter reduces
+by 1. At that point, anyone whose counter has dropped to 0 may take their next
+turn. It is not currently known exactly how the game resolves multiple
+characters reaching 0 at the same time.
+In addition to the counter, every battle object has a tick speed. This is an
+integer worked out from the character's Agility. Any action you take will be a
+multiple of this tick speed.
+When a turn is taken, it sets the counter to a value related to your tick speed
+and the ability used. Each ability has a Rank that designates exactly how fast
+the ability is. Lower ranked abilities take less time than higher ranked
+abilities, and the progression is linear: a Rank 8 ability will take eight
+times as long to recover from as opposed to a Rank 1 ability.
+The CTB window shows the next 16 turns that will be taken, in whatever order.
+It assumes that each character, when their next turn comes up, will select a
+Rank 3 move. Rank 3 is the default speed for any ability. Furthermore, the bar
+next to each character's 'turn' represents how many ticks away it is. With no
+bar showing, the turn is to be taken during the current tick. A full bright
+pink bar represents a turn 20 ticks away, and for each further color that is
+filled, another 20 ticks is added on. A full bar of the darkest color
+represents a turn that is 60 or more ticks away.
+Because of all this, there are very few formulas required to explain all this.
+We'll cover the most important one now: what the counter is set to when you
+take a turn.
+The exact value is:
+Counter = [Tick Speed*Rank*Haste Status]
+...where Rank refers to the Rank of the ability used, and Haste Status is
+either 1/2 for Haste, 1 for Normal and 2 for Slow. Keep in mind that when under
+Haste status, your Counter will be rounded up if a fraction remains. This often
+results in abilities with odd-numbered Ranks used by characters with
+odd-numbered tick speeds being recovered from slightly faster than usual.
+Casting Haste and Slow also changes the current Counter. A successful casting
+of Haste on a character will halve their current Counter while rounding down,
+regardless of whether they were Slowed or not beforehand. The opposite happens
+with Slow; their Counter will be doubled regardless of whether they were in
+Haste or not. Also note that Dispelling either Haste or Slow will *NOT* change
+their Counter. Their Counter will continue to descend at the same high or low
+value until their next turn."
+
+Now, here's a chart relating Agility to Tick Speed:
+------------------------+-------------------------+--------------------------
+Agi        = Tick Speed | Agi        = Tick Speed | Agi        = Tick Speed
+------------------------+-------------------------+--------------------------
+170 -  255   = 3        | 19  -  22    = 10       | 4            = 20
+------------------------+-------------------------+--------------------------
+98  -  169   = 4        | 17  -  18    = 11       | 3            = 22
+------------------------+-------------------------+--------------------------
+62  -  97    = 5        | 15  -  16    = 12       | 2            = 24
+------------------------+-------------------------+--------------------------
+44  -  61    = 6        | 12  -  14    = 13       | 1            = 26
+------------------------+-------------------------+--------------------------
+35  -  43    = 7        | 10  -  11    = 14       | 0            = 28
+------------------------+-------------------------+--------------------------
+29  -  34    = 8        | 7   -  9     = 15       | *************************
+------------------------+-------------------------+--------------------------
+23  -  28    = 9        | 5   -  6     = 16       | *************************
+------------------------+-------------------------+--------------------------
+
+ ____________________________
+/  b) Initial Counter Value  \
+===============================================================================
+(Thanks to jobber2022497 for posting this info and allowing me to use it)
+
+The first has to do with the Counter value assigned to each participant at the
+start of battle. We'll call this number "Inital Counter Value", or ICV for
+short. You may have noticed that the ICV for a given character (without
+Haste) is approximately [Tick Speed * 3]. For quick reference, here's the
+list of Tick Speed values for each range of Agility:
+
+Agi --------------------------------------------------> TS
+
+0 ----------------------------------------------------> 28
+1 ----------------------------------------------------> 26
+2 ----------------------------------------------------> 24
+3 ----------------------------------------------------> 22
+4 ----------------------------------------------------> 20
+5~6 --------------------------------------------------> 16
+7~9 --------------------------------------------------> 15
+10~11 ------------------------------------------------> 14
+12~14 ------------------------------------------------> 13
+15~16 ------------------------------------------------> 12
+17~18 ------------------------------------------------> 11
+19~22 ------------------------------------------------> 10
+23~28 ------------------------------------------------> 9
+29~34 ------------------------------------------------> 8
+35~43 ------------------------------------------------> 7
+44~61 ------------------------------------------------> 6
+62~97 ------------------------------------------------> 5
+98~169 -----------------------------------------------> 4
+170~255 ----------------------------------------------> 3
+
+In Pre-emptive Strikes and Ambushes, the ICVs of the disadvantaged side
+are indeed set to [TickSpeed * 3].
+
+However, in a normal start, [TickSpeed * 3] is only the maximum ICV possible
+for characters and the minimum ICV possible for monsters.
+
+For characters, the range of possible ICVs varies greatly within each Tick
+Speed. In contrast, monsters have only one ICV range per Tick Speed.
+
+Here is the list of relevant Agility groupings (left column), their
+corresponding characater ICV ranges (right column), and monster ICV ranges
+("M" entries) in a normal start:
+
+Agi------------------------------------ICV
+
+1---------------------------------------83~84
+M: 84~93
+2---------------------------------------77~78
+M: 78~86
+3---------------------------------------71~72
+M: 72~80
+4---------------------------------------59~60
+M: 60~66
+5---------------------------------------47~48
+6---------------------------------------46~48
+M: 48~53
+7---------------------------------------44~45
+8---------------------------------------43~45
+9---------------------------------------42~45
+M: 45~50
+10---------------------------------41~42
+11---------------------------------40~42
+M: 42~46
+12---------------------------------38~39
+13---------------------------------37~39
+14---------------------------------36~39
+M: 39~43
+15---------------------------------35~36
+16---------------------------------34~36
+M: 36~40
+17---------------------------------32~33
+18---------------------------------31~33
+M: 33~36
+19---------------------------------29~30
+20---------------------------------28~30
+21---------------------------------27~30
+22---------------------------------26~30
+M: 30~33
+23---------------------------------26~27
+24---------------------------------25~27
+25---------------------------------24~27
+26---------------------------------23~27
+27---------------------------------22~27
+28---------------------------------21~27
+M: 27~30
+29---------------------------------23~24
+30---------------------------------22~24
+31---------------------------------21~24
+32---------------------------------20~24
+33---------------------------------19~24
+34---------------------------------18~24
+M: 24~26
+35---------------------------------20~21
+36---------------------------------19~21
+37---------------------------------18~21
+38---------------------------------17~21
+39---------------------------------16~21
+40---------------------------------15~21
+41---------------------------------14~21
+42---------------------------------13~21
+43---------------------------------12~21
+M: 21~23
+44~45------------------17~18
+46~47------------------16~18
+48~49------------------15~18
+50~51------------------14~18
+52~53------------------13~18
+54~55------------------12~18
+56~57------------------11~18
+58~59------------------10~18
+60~61------------------9~18
+M: 18~20
+62~65------------------14~15
+66~69------------------13~15
+70~73------------------12~15
+74~77------------------11~15
+78~81------------------10~15
+82~85------------------9~15
+86~89------------------8~15
+90~93------------------7~15
+94~97------------------6~15
+M: 15~16
+98~105----------------11~12
+106~113---------------10~12
+114~121---------------9~12
+122~129---------------8~12
+130~137---------------7~12
+138~145---------------6~12
+146~153---------------5~12
+154~161---------------4~12
+162~169---------------3~12
+M: 12~13
+170~185---------------------8~9
+186~201---------------------7~9
+202~217---------------------6~9
+218~233---------------------5~9
+234~249---------------------4~9
+250~255---------------------3~9
+M: 9~10
+
+Each single-spaced block of entries represents a distinctive Tick Speed. To
+get a monster's ICV range, find its Agility stat and look for the "M" entry
+directly below it. For example, Vorban (33 Agility) has an ICV range of 24~26.
+
+Of course, character ICV is halved with [Auto-Haste]. Note that 0 Agility is
+not covered by Ultimania; the only known 0 Agility unit in the game is Magic
+Urn, and it never gets a proper turn.
+
+So that's it for the first issue of this topic. Scroll down for the next
+part. (I promise that it will be shorter!)
+
+As you might already know, a few of the game's monsters will do something
+immediately after they appear, regardless of "Pre-emptive Strike"/normal
+start/"Ambush" or Agility. For lack of anything better to call them, I've
+named such occurences "immediate actions", and they are the second subject
+of this topic. Examples of them include Yunalesca[3]'s Mega Death and
+Varuna's Haste (when Varuna is encountered outside the Arena).
+
+Immediate actions that are done at the start of battle occur one tick before
+Pre-Emptive Strike/[First Strike]/Ambush turns are resolved. Character counters
+are not reduced during this tick, but the immediately-acting monster's Counter
+is reduced.
+
+In other words, when Kottos (Tick Speed 7) starts the battle by preparing its
+counterattack, its Counter is reset to 21, but the Counter goes down to 20
+before the characters can take [First Strike]/Pre-emptive Strike turns (it will
+be 16 by the time that a 170 Agility + [Auto-Haste] character gets his/her first
+turn).
+
+I have not done any thorough testing with it yet, but it seems that immediate
+actions cancel out the "Monster Counter -> 0" property of Ambush (at least
+with Kottos).
+
+Ultimania Omega has a table that looks like a list of battle-opening
+immediate actions, but I do not know enough Japanese to read it all (yet).
+
+* - I've only tested this in battles with a single enemy, so I cannot say if
+this holds true for multiple enemies in a battle in which only one enemy has
+an immediate action.
+
+Monster ICV's appear to range from, yes, 3x Tick Value to [10*TV÷9] inclusive,
+in all cases.
+
+Party ICV's... they appear to depend on how much Agi you have over the base
+value. For TVs 7+, it's a simple 1-to-1 basis (if MinAgi is the minimum Agi
+required to get a particular TV, then your ICV = (3*TV - 1 - (Agi-MinAgi)) to
+(3*TV)).
+
+Below that, though, the range uses a power of 2, transforming the formula to:
+ICV = (3*TV - 1 - [(Agi-MinAgi)÷(2^(7-TV))]) to (3*TV)
+
+Slow merely doubles the Tick Counter; it doesn't change Tick Speeds.
+
+And I note I listed [10*TV÷9] for monsters end value, which is clearly
+incorrect: I meant [30*TV÷9] or [10*(3*TV)÷9].
+
+===============================================================================
+```````````````````````````````````````````````````````````````````````````````
+                                   VI. LUCK
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+===============================================================================
+
+ ______________________
+/  a) What It Affects  \
+===============================================================================
+
+Luck only factors in to three things, which are as follows:
+
+1. Critical Hit Rate -> formula coming soon
+2. Your odds of hitting an enemy -> more info coming soon
+3. The odds of an enemy hitting you -> more info coming soon
+
+ ___________________________
+/  b) Common Misconception  \
+===============================================================================
+
+1. Luck does NOT affect your stealing rate. For every steal you have a 1/2
+chance of the last turn you stole to steal:
+
+First Turn - 100%     | Second Turn - 50%    | Third Turn - 25%
+Fourth Turn - 12.5%   | Fifth Turn - 6.25%   | Sixth Turn - 3.125%
+Seventh Turn - 1.5625%| Eighth Turn - .78125%| Ninth Turn - .390625%
+
+Etc., etc.
+
+===============================================================================
+```````````````````````````````````````````````````````````````````````````````
+                             VII. CONSTANT VALUES
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+===============================================================================
+
+COMING SOON!!!
+
+===============================================================================
+```````````````````````````````````````````````````````````````````````````````
+                             VIII. HIT PERCENTAGE
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+===============================================================================
+
+COMING SOON!!!
+
+===============================================================================
+```````````````````````````````````````````````````````````````````````````````
+                             IX. ACKNOWLEDGEMENTS
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+===============================================================================
+
+This is where I pay tribute to those who've helped us out in the making of this
+FAQ. We'd like to thank the following...
+
++- jobber2022497 -+ For posting ICV information on the FFX board.
++- Theoden -+ For many knowledgeable posts and for various pieces of
+information here and there.
++- Thundaka -+ For clarifying that Luck also affects the odds of an enemy
+hitting you.
++- Terence -+ His information on Tickspeed and various stat formulas proved
+invalueable in the making/writing of this FAQ.
++- Masamune3 -+ For help in the past and for being a great guy.
++- Lord Skylark -+ Scanning the Ultimania pages.
++- Split Infinity -+ For helping me in the past with a question I had about
+Luck.
++- Ultimania series -+ This is where it's at. Arguably the most useful and
+detailed FFX source in the world. They've provided an insane amount of detail
+to me.
+
+Want to get on this list? Want to be famous? Heh, just submit information that
+is NOT already included in this guide and you'll be put on here. Another way?
+Well, you could always correct a mistake we might've made throughout the FAQ.
+Thanks. Over and out.
+
+xX End of File Xx
+

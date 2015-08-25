@@ -1,0 +1,1552 @@
+The first edition FF1 'handbook'	-courtesy of Ben Siron
+					a.k.a. bensiron@cco.caltech.edu
+
+FF1 = Final Fantasy for the Nintendo Entertainment System
+
+other than the strategy guide given by nintendo power ages ago (which has many
+major errors and omissions), I've found very little information about this
+game.  Nearly everything here I have discovered on my own
+
+if you find anything amiss, missing, or badly explained (however trivial) with
+this guide, e-mail me and I'll take a note of it.  E-mail me if you find out
+any cool tips, strategies, etc...
+
+(this listing was made in an evenly spaced font; 78 characters to a line; 8
+characters to a tab)
+
+
+- - - - - - - -=- -=- -=- -=- -=< CONTENTS >=- -=- -=- -=- -=- - - - - - - -
+
+0: DEFINITIONS & ABBREVIATIONS	.	.	.	.	03 %
+
+1: ALGORITHMS	.	.	.	.	.	.	09 %
+     how the base values for derived stats are determined	09 %
+     how MHP changes with each LV up	.	.	.	11 %
+     initial values for statistics and how basic stats
+	increase with LV ups	.	.	.	.	11 %
+     XP required for each LV up	.	.	.	.	13 %
+     maximum charges per SL at each LV and exact XP
+	required to reach that LV	.	.	.	14 %
+     how FF1 determines it is time to enter battle	.	20 %
+     enemy domain mapping	.	.	.	.	21 %
+     (x,y) coordinates of important locations	.	.	25 %
+     monster lair domains	.	.	.	.	27 %
+     the actions available in battle	.	.	.	32 %
+     how monsters choose their attack strategies	.	33 %
+     how damage is calculated from an attack	.	.	37 %
+     how damage is calculated from magic or a special attack	39 %
+     how gold and XP is rewarded	.	.	.	40 %
+     relative speeds of various vehicles on the world map	41 %
+     condition for stooping over in battle	.	.	41 %
+
+2: CONDITIONS	.	.	.	.	.	.	41 %
+     resurrection and inn rates	.	.	.	.	44 %
+
+4: MAGIC	.	.	.	.	.	.	45 %
+     white magic	.	.	.	.	.	46 %
+     black magic.	.	.	.	.	.	51 %
+
+5: ITEMS	.	.	.	.	.	.	55 %
+     weapons	.	.	.	.	.	.	56 %
+     armor	.	.	.	.	.	.	59 %
+     other items	.	.	.	.	.	62 %
+     special items	.	.	.	.	.	64 %
+     vehicles	.	.	.	.	.	.	66 %
+
+6: MONSTERS	.	.	.	.	.	.	68 %
+     special attacks	.	.	.	.	.	68 %
+     enemy stats	.	.	.	.	.	70 %
+     index of enemies	.	.	.	.	.	86 %
+
+7: TIPS, TRICKS, ETC.	.	.	.	.	.	90 %
+     pros and cons of the 6 character classes	.	.	95 %
+
+
+
+
+======================= 0: DEFINITIONS & ABBREVIATIONS ======================
+
+WARRIOR - one of the four members of your party, located on the right side of
+	the battle screen
+
+ENEMY - any character appearing on the left side of the battle screen.  An
+	enemy of an enemy is a warrior.
+
+S - STR - strength stat of a warrior
+G - AGI - agility stat of a warrior
+I - INT - intelligence stat of a warrior
+V - VIT - vitality stat of a warrior
+L - LUCK - luck stat of a warrior
+
+D - DAMAGE - basic attack power of a warrior or enemy
+H% - HIT% - accuracy stat of a warrior
+A - ABSORB - basic armor rating of a warrior or enemy
+E% - EVADE% - stat controlling ability to dodge attacks for a warrior
+
+LV - LEVEL - experience level of a warrior
+XP - experience points accumulated by a warrior
+
+MHP - maximum hit points of a particular warrior
+
+SL - spell level: each magic spell has a level associated with it from 1 to 8
+
+SPELL CHARGE - each SL has a counter associated with it telling you how many
+	spell charges remain that are available for use.  For each charge
+	remaining you may cast a spell of that level one time
+
+BASIC STATS - the statistics peculiar to each warrior which can be viewed on
+	the left side of the status screen: S, G, I, V, L.  These stats are
+	not affected by equipment
+
+DERIVED STATS - the statistics on the right side of the status screen
+	(D,H%,A,E%) which are completely determined by the level of the
+	warrior and the basic stats.  These stats are modified by the
+	equipment that the warrior has on
+
+(a..b) - math notation representing a random integer picked between a and b,
+	including a and b
+
+[x] - math notation representing the greatest integer less than or equal to x.
+	i.e.: [57/4] = [19.25] = 19
+
+x=y(mod n) - math notation: modular arithmetic.  This means that x and y have
+	the same remainder when divided by n.  i.e.: 3=7(mod 4),
+	but 3<>7(mod 9)
+
+a:(b..c) - my own personal mathematical notation.  This means that a is an
+	integer between b and c, including b and c
+
+" - substitute whatever is printed on the line directly above in place of the
+	quote mark
+
+CLASS - each warrior belongs to one of twelve classes: Fighter, Black Mage,
+	Ninja, etc...
+
+Fi/Kn - FIGHTER / KNIGHT classes
+Bb/Ma - BLACK BELT / MASTER classes
+Th/Ni - THIEF / NINJA classes
+Rm/Rz - RED MAGE / RED WIZARD classes
+Wm/Wz - WHITE MAGE / WHITE WIZARD classes
+Bm/Bz - BLACK MAGE / BLACK WIZARD classes
+
+PROMOTION - a change of class which all warriors recieve simultaneously at a
+	unique point in the game, i.e. (Fi->Kn), (Wm->Wz), etc...
+
+ARMED/UNARMED - whether or not a particular warrior has a weapon equipped
+
+BARE/ARMORED - whether or not a particular warrior has any armor equipped.  If
+		no armor is equipped, the warrior is bare
+
+TARGET - the character to which an action is directed
+
+ROUND - a complete cycle of a battle in which all warriors and enemies decide
+	their courses of action and take that action
+
+INSIDE/OUTSIDE - inside refers to any town or area that contains character
+	whom you can talk to.  Outside refers to the world map
+
+MONSTER LAIR - any place which contains enemies that you can run into and
+	fight randomly
+
+ELEMENTS/RESISTANCES - some magical and special attacks have one the four
+	elements of fire(F), ice(I), lightning(L), or poison(P) associated
+	with them.  If the target resists an element associated with that
+	attack, damage taken is reduced.  If the target is weak against that
+	particular element, extra damage will be taken
+
+IMHO - 'In My Humble Opinion,...'
+
+
+
+
+===================== 1: STATISTICAL & DAMAGE ALGORITHMS ====================
+
+- - - - - - HOW THE BASE VALUES FOR DERIVED STATS ARE DETERMINED: - - - - - -
+
+D = [S/2]	for Fi/Kn/Wm/Wz/Th/Ni/Rm/Rz
+  = [(S+1)/2]	for Bm/Bz/(armed Bb/Ma)*
+  = LV x 2	for unarmed Bb/Ma
+
+*BUG: Immedately after a level up, D for an armed Bb/Ma is instead [S/2]+1.
+	this is an actual effect and does not correct itself until you visit
+	the weapons subscreen.  It even persists if you save and reload the
+	game
+
+H% = (initial value at LV 1) + (3 x (LV-1)) for Fi/Kn/Bb/Ma
+   = (initial value at LV 1) + (2 x (LV-1)) for Th/Ni/Rm/Rz
+   = (initial value at LV 1) + (LV - 1) for Wm/Wz/Bm/Bz
+
+
+A = 0		for all classes, except...
+  = LV		for a bare Bb/Ma*
+
+*BUG: Immediately after a level up, A for an armored Bb/Ma is instead equal
+	to LV, regardless of whatever armor is being worn.  This is an actual
+	effect and does not correct itself until you visit the armor
+	subscreen.  It even persists if you save and reload the game.  This
+	bug does not affect special abilities granted by the armor you have
+	on, such as resistances to certain elements
+
+E% = G + 48%	for all classes
+
+
+
+- - - - - - - - - - - HOW MHP CHANGES WITH EACH LV UP: - - - - - - - - - - - -
+
+there are two types of level ups: weak and strong.
+For a strong level up, MHP goes up by 20+[V/4]+(1..6).
+For a weak level up, MHP goes up by [V/4]+1
+
+for a given class and level, I'm not sure what determines whether the LV up
+will be weak or strong.  Roughly speaking, over the course of 49 LV ups, the
+six classes have the following percentages of strong LV ups:
+
+Fi/Kn: 50%		Bb/Ma: 40%		Th/Ni: 35%
+Wm/Wz: 30%		Rm/Rz: 25%		Bm/Bz: 25%
+
+
+
+- INITIAL VALUES FOR STATISTICS AND HOW BASIC STATS INCREASE WITH LV UPS: - -
+
+the first number in each space is the initial value given to that class at
+LV 1.  The next number is the probability (in eighths) that that particular
+stat will increase during a LV up.  i.e. a Black Wizard has a 3/8 chance of
+gaining agility during a level up and an 8/8 probability of gaining
+intelligence.  Basic stats never rise more than 1 point during a LV up.  The
+H% and MHP rows tell you what the initial values of those stats are for that
+particular class
+
+	Class 	Fi/Kn	Bb/Ma	Wm/Wz	Bm/Bz	Th/Ni	Rm/Rz
+STAT
+  S		20,8	5, 5	5, 4	1, 4	5, 7	10,5
+  G		5, 6	5, 5	5, 4	10,3	10,6	10,5
+  I		1, 4	5, 5	15,5	20,8	5, 4	10,5
+  V		10,5	20,8	10,4	1, 4	5, 4	5, 5
+  L		5, 6	5, 5	5, 5	10,4	15,8	5, 5
+
+  H%		10	5	5	5	5	7
+ MHP		35	33	28	25	30	30
+
+
+
+- - - - - - - - - - - - XP REQUIRED FOR EACH LV UP: - - - - - - - - - - - - -
+
+to go from LV=N to LV=N+1, a warrior needs to acquire (39 x N^2) XP
+if N>29, use N=29 in the preceding formula. 50 is the maximum level
+attainable.  Add 1 XP to the XP needed if LV=1,17 or if (LV>22 and
+LV=1(mod 2))
+
+
+
+- MAXIMUM CHARGES PER SL AT EACH LV AND EXACT XP NEEDED TO REACH THAT LEVEL -
+
+the number of max SL charges that a given warrior at a given level can have
+can be found in one of the four columns corresponding to that warrior's class.
+The Fi/Th/Bb/Ma classes have no capacity for magic
+
+strangely enough, the Rm/Rz is given SL charges for SL-8 spells even though he
+can't learn any SL-8 spells.  For this reason, the total # of SL charges that
+I have listed on the right side will not include the SL-8 charges
+
+the levels given for the Kn and Ni are relative levels.  Let X = either 22 or
+the warrior's LV at time of promotion), choosing the higher of the two.  Then
++(n) in the LV column means that the warrior gets that SL capacity at
+LV = X + n (if a Fi or Th were to get promoted after LV 43, that warrior would
+never be able to reach his maximum SL charge capacity - this is usually not a
+problem)
+
+SL    	XP Wm/Wz/Bm/Bz: 1 2 3 4 5 6 7 8		 Rm/Rz: 1 2 3 4 5 6 7 8
+LV
+1	0		2 0 0 0 0 0 0 0  =2		2 0 0 0 0 0 0 0  =2
+2	40		3 1 0 0 0 0 0 0  =4		3 1 0 0 0 0 0 0  =4
+3	196		3 2 0 0 0 0 0 0  =5		3 2 0 0 0 0 0 0  =5
+4	547		4 2 0 0 0 0 0 0  =6		4 2 0 0 0 0 0 0  =6
+5	1171		4 3 1 0 0 0 0 0  =8		4 3 0 0 0 0 0 0  =7
+
+6	2146		4 3 2 0 0 0 0 0  =9		4 3 1 0 0 0 0 0  =8
+7	3550		5 3 2 0 0 0 0 0  =10		5 3 2 0 0 0 0 0  =10
+8	5461		5 3 3 1 0 0 0 0  =12		5 4 2 0 0 0 0 0  =11
+9	7957		5 4 3 2 0 0 0 0  =14		5 4 3 0 0 0 0 0  =12
+10	11116		6 4 3 2 0 0 0 0  =15		6 4 3 1 0 0 0 0  =14
+
+11	15016		6 4 4 3 0 0 0 0  =17		6 4 3 2 0 0 0 0  =15
+12	19735		6 4 4 3 1 0 0 0  =18		6 4 4 2 0 0 0 0  =16
+13	25331		6 5 4 3 2 0 0 0  =20		6 5 4 3 0 0 0 0  =18
+14	31942		7 5 4 4 2 0 0 0  =22		7 5 4 3 0 0 0 0  =19
+15	39586		7 5 5 4 3 0 0 0  =24		7 5 4 3 1 0 0 0  =20
+
+16	48361		7 5 5 4 3 1 0 0  =25		7 5 5 4 2 0 0 0  =23
+17	58345		7 6 5 4 3 2 0 0  =27		7 6 5 4 2 0 0 0  =24
+18	69617		7 6 5 5 4 2 0 0  =29		7 6 5 4 3 0 0 0  =25
+19	82253		8 6 5 5 4 3 0 0  =31		7 6 5 5 3 0 0 0  =26
+20	96332		8 6 6 5 4 3 1 0  =33		7 6 6 5 3 1 0 0  =28
+
+21	111932		8 6 6 5 4 3 2 0  =34		8 6 6 5 4 2 0 0  =31
+22	129131		8 6 6 5 5 4 2 0  =36		9 6 6 5 4 2 0 0  =32
+23	148007		8 6 6 6 5 4 3 0  =38		9 6 6 5 4 3 0 0  =33
+24	168639		9 7 6 6 5 4 3 0  =40		9 7 6 6 4 3 0 0  =35
+25	191103		9 7 6 6 5 5 3 1  =42		9 7 6 6 5 3 0 0  =36
+
+26	215478		9 7 6 6 5 5 4 2  =44		9 7 6 6 5 4 1 0  =38
+27	241843		9 7 7 6 6 5 4 2  =46		9 7 7 6 5 4 2 0  =40
+28	270275		9 8 7 6 6 5 4 3  =48		9 8 7 6 5 4 2 0  =41
+29	300851		9 8 7 7 6 5 5 3  =50		9 8 7 6 5 5 3 0  =43
+30	333651		9 8 7 7 6 6 5 4  =52		9 8 7 6 6 5 3 0  =44
+
+31	366450		9 8 8 7 6 6 5 4  =53		9 8 7 7 6 5 3 0  =45
+32	399250		9 8 8 7 7 6 5 4  =54		9 8 7 7 6 5 3 1  =45
+33	432049		9 8 8 7 7 6 5 5  =55		9 8 8 7 6 5 4 2  =47
+34	464849		9 8 8 7 7 6 6 5  =56		9 8 8 7 6 6 4 3  =48
+35	497648		9 8 8 8 7 6 6 5  =57		9 8 8 7 7 6 5 3  =50
+
+36	530448		9 8 8 8 7 7 6 5  =58		9 8 8 7 7 6 5 4  =50
+37	563247		9 8 8 8 7 7 6 6  =59		9 8 8 8 7 6 5 4  =51
+38	596047		9 9 8 8 7 7 6 6  =60		9 8 8 8 7 6 6 4  =52
+39	628846		9 9 8 8 7 7 7 6  =61		9 8 8 8 7 6 6 5  =52
+40	661646		9 9 8 8 8 7 7 6  =62		9 8 8 8 7 7 6 5  =53
+
+41	694445		9 9 8 8 8 7 7 7  =63		9 9 8 8 7 7 6 5  =54
+42	727245		9 9 8 8 8 8 7 7  =64		9 9 8 8 8 7 6 5  =55
+43	760044		9 9 9 8 8 8 7 7  =65		9 9 8 8 8 7 6 6  =55
+44	792844		9 9 9 8 8 8 8 7  =66		9 9 8 8 8 7 7 6  =56
+45	825643		9 9 9 8 8 8 8 8  =67		9 9 9 8 8 7 7 6  =57
+
+46	858443		9 9 9 9 8 8 8 8  =68		9 9 9 8 8 8 7 6  =58
+47	891242		9 9 9 9 9 8 8 8  =69		9 9 9 8 8 8 7 7  =58
+48	924042		9 9 9 9 9 9 8 8  =70		9 9 9 9 8 8 7 7  =59
+49	956841		9 9 9 9 9 9 9 8  =71		9 9 9 9 8 8 8 7  =60
+50	989641		9 9 9 9 9 9 9 9  =72		9 9 9 9 9 8 8 7  =61
+
+
+SL		    Kn: 1 2 3 4 5 6 7 8		    Ni: 1 2 3 4 5 6 7 8
+
+<(+1)			nothing				nothing
++1, +2			1 1 1 0 0 0 0 0			1 1 1 1 0 0 0 0
++3, +4			2 2 2 0 0 0 0 0			2 2 2 2 0 0 0 0
++5, +6			3 3 3 0 0 0 0 0			3 3 3 3 0 0 0 0
+>(+6)			4 4 4 0 0 0 0 0			4 4 4 4 0 0 0 0
+
+
+
+- - - - - - - HOW FF1 DETERMINES IT IS TIME TO ENTER BATTLE: - - - - - - - - -
+
+at the beginning of the previous combat, a random number x is generated where
+x = (50..255).  for each step taken
+
+-outside on desert,plains,forest,marsh,river	decrement x by 6
+-inside of a cave,or other monster lair		decrement x by 5
+-outside on a ship				decrement x by 2
+-on a damage square in a monster lair, in
+  the airship, in a seaport, or inside		leave x alone
+
+when x<0, battle begins.  There are also certain map squares for which battle
+always occurs.  Entering a battle automatically in this way does not reset the
+value of x.  In general, x is reset whenever x becomes negative or when a game
+is begun or reloaded.  x is not reset by entering a town or other inside-type
+area
+
+
+
+- - - - - - - - - - - - - ENEMY DOMAIN MAPPING - - - - - - - - - - - - - - - -
+
+the world map in FF1 is a grid 256 units wide by 256 units tall.  Label each
+square on this map using X,Y pseudo-cartesian coordinates: (0,0) is the first
+grid sqare in the NW-most corner,  (0,255) is the square in the SW-most
+corner, (255,255) is the square in the SE-most corner, etc...
+
+the entire world map is subdivided into 64 smaller (32x32) domains (it is
+divided up with 8 strips legthwise and 8 strips up and down).  For each
+domain, the enemies you can expect to find within are constant throughout that
+domain.  The world map:
+
+	   LAND:				   RIVER:
+  (0,0)		      (255,0)		  (0,0)		      (255,0)
+       N N X O O X N N			       B B B B B B B B
+       W W C O O D D E			       B B B B B B B B
+       W W - C - D D E			       B B B B B B B B
+       - - - F F V - E			       A A A A A A A A
+       - R V V S P P M			       A A A A A A A A
+       R R R V - V M M			       A A A A A A A A
+       - - M V V M L L			       A A A A A A A A
+       - - - M V M L L			       A A A A A A A A
+(0,255)		      (255,255)		(0,255)		      (255,255)
+
+each letter represents type of domain and its relative position on the world
+map.  For instance the 'B' in the center corresponds to a domain that spans
+a territory from x:(128,159) and y:(128,159)
+
+Domain Label	Enemies found there
+
+LAND:
+      -		IMP
+      S		IMP, GrIMP, MADPONY
+      F		(GrIMP,IMP), CREEP, SPIDER, MADPONY, BONE
+      P		OGRE, IGUANA, MADPONY, CREEP, (WOLF,GrWOLF),
+		  (GrIMP,WOLF,GrWOLF,IMP)
+      V		(OGRE,CREEP), (GrWOLF,WOLF), ASP, ARACHNID, GrIMP
+      M		(GrIMP,WrWOLF), (OGRE,CREEP), GEIST, ARACHNID, (GrWOLF,WOLF),
+		  SCORPION
+      R		(GHOUL,GEIST), (GrOGRE,OGRE), (ARACHNID,SPIDER), SHADOW,
+		  TIGER, (OGRE,HYENA)
+      L		(TROLL,BULL), (COBRA,SCORPION), GIANT, PEDE
+      C		MANTICOR, R.ANKYLO, OCHO, WYRM
+      O		(Saber T,CATMAN), SAURIA, WYRM, SPHINX, (HYDRA,OCHO)
+      W		ANKYLO, (CEREBUS,WzOGRE), (Saber T,TIGER), (FrGIANT,FrWOLF)
+      N		(HYDRA,OCHO), WYVERN, TROLL, GrPEDE, (FrGIANT,FrWOLF),
+		  MANTICOR
+      X		(HYDRA,OCHO), Sand W, WYVERN, CATMAN, (GIANT,IGUANA)
+      E		(ZomBULL,TROLL), (FrGIANT,FrWOLF), GIANT, TYRO
+      D		(TYRO,WYVERN), ANKYLO, Sand W, R.ANKYLO, T REX
+
+RIVER:
+      A		(HYDRA,OCHO), CARIBE, (OCHO,CARIBE), (CARIBE,GATOR)
+      B		(HYDRA,GATOR), (FrGATOR,R.CARIBE), NAOCHO, (OCHO,CARIBE,GATOR)
+
+OCEAN:(only one domain)
+		(OddEYE,SAHAG), (SAHAG,R.SAHAG), (SHARK,R.SAHAG), KYZOKU
+
+
+- - - - - - - - - - COORDINATES of IMPORTANT LOCATIONS - - - - - - - - - - - -
+
+Astos's Castle..........:(102..103,185..186)
+Castle of Ordeal........:(129..130,44..45)
+Coneria.................:(151..154,160..162)
+Coneria Castle..........:(152..153,157..159)
+Crescent Lake...........:(218..220,216..218)
+Dragons of Cardia.......:(79,49),(92,48),(105,59),
+			 (93,58),(96,51),(116,66)
+Dwarves Cave............:(100,155)
+Earth Cave..............:(65,186)
+Elfland.................:(134..137,221..222)
+Elven Castle............:(135..136,220..221)
+Gaia....................:(221..223,27..28)
+Gurgu Volcano...........:(188..189,203..204)
+Ice Cave................:(197,183)
+Lefein..................:(234..236,98..99)
+Marsh Cave..............:(102,236)
+Matoya's Cave...........:(168,117)
+Melmond.................:(81..82,159..160)
+Mirage Tower/Sky Castle.:(194,57..58)
+Oasis...................:(29,49)
+Onrac...................:(61..62,57..58)
+Pravoka.................:(209..211,149..150)
+Sarda's Cave............:(30,190)
+Temple of Fiends........:(129..130,122..123)
+Titan's Tunnel..........:(42,174) - (30,175)
+Waterfall...............:(54,29)
+
+
+MONSTER LAIR DOMAINS: (F = floor, B = basement)
+
+Temple of Fiends:    1F:(BONE,SPIDER), ZOMBIE, CREEP, GARGOYLE, GHOUL,
+			(WOLF,GrIMP), (GrIMP,WOLF,GrWOLF,IMP)
+
+Marsh Cave:	     B1:(ZOMBIE,GHOUL), SHADOW, (BONE,CRAWL), SCUM, MUCK,
+			(ARACHNID,SPIDER,SCUM)
+		  B2,B3:SCUM, GARGOYLE, (R.BONE,BONE,CRAWL), (WrWOLF,GrWOLF),
+			(ZOMBIE,GHOUL), (ARACHNID,SPIDER,SCUM), SCORPION
+
+Earth Cave:	     B1:(ARACHNID,SPIDER), (GrOGRE,OGRE), BULL, COBRA,
+			GARGOYLE
+		     B2:(TROLL,BULL), (GrOGRE,OGRE), (WrWOLF,GrWOLF), ASP
+		     B3:MUMMY, (WrWOLF,GrWOLF), (SPECTER,GEIST), COCTRICE,
+			(GrOGRE,OGRE), WIZARD
+		     B4:IMAGE, COCTRICE, WIZARD, (SPECTER,GEIST),
+			(GrIMP,WrWOLF)
+		     B5:(TROLL,BULL), ARACHNID, IMAGE, MUMMY, GIANT
+
+Titan's Tunnel:	     1F:GrWOLF, TIGER, (GrOGRE,OGRE), OOZE
+
+Gurgu Volcano:	     B1:(BULL,SCORPION), SPHINX, R.GOYLE, MUCK, PEDE,
+			(WzOGRE,GrOGRE,HYENA)
+		     B2:PEDE, MUCK, R.HYDRA, GARGOYLE, (WzOGRE,GrOGRE,HYENA),
+			PERILISK, (GIANT,IGUANA)
+		     B3:(GIANT,IGUANA), PERILISK, (WzOGRE,GrOGRE,HYENA),
+			R.HYDRA, CEREBUS
+		     B4:Grey W, CEREBUS, BULL, R.HYDRA, R.GIANT, Red D,
+			(WzOGRE,GrOGRE)
+		     B5:R.GIANT, AGAMA, Red D, BULL, (CEREBUS,WzOGRE)
+
+Ice Cave:	     B1:(COCTRICE,MUMMY), WIZARD, R.BONE, WRAITH
+		     B2:(IMAGE,WRAITH), (WRAITH,IMAGE,SPECTER,GEIST), MAGE,
+			SORCEROR, (FrGIANT,FrWOLF)
+		     B3:R.BONE, GrPEDE, Frost D, (FrGIANT,FrWOLF), MAGE,
+			SORCEROR, WRAITH
+
+Castle of Ordeal:    1F:nothing
+		     2F:(MUMMY,WzMUMMY), ZomBULL, SORCEROR, MANCAT, R.GOYLE,
+			MEDUSA
+		     3F:NITEMARE, (MUMMY,WzMUMMY), R.GOYLE, SORCEROR, MEDUSA
+
+Waterfall:	     1F:(MUMMY,WzMUMMY), NITEMARE, MudGOL, PERILISK
+
+Sea Shrine:	     2F:nothing
+		     1F:(GrSHARK,SHARK), SeaSNAKE, GHOST, WATER,
+			(WzSAHAG,R.SAHAG)
+	(entrance)-> B1:(GrSHARK,SHARK), (NAGA,WATER), (WzSAHAG,R.SAHAG),
+			SeaSNAKE, (GrSHARK,WzSAHAG), (SeaTROLL,LOBSTER)
+		     B2:GHOST, (SeaTROLL,SeaSNAKE), (WzSAHAG,R.SAHAG),
+			(GrSHARK,BigEYE), LOBSTER
+		     B3:(GrSHARK,BigEYE), WATER, (SeaTROLL,LOBSTER,SeaSNAKE)
+
+Mirage Tower	     1F:(NITEMARE,BADMAN), GUARD, VAMPIRE, CHIMERA
+and Sky Castle:	     2F:(WzMUMMY,MUMMY,COCTRICE,PERILISK), GUARD, CATMAN,
+			CEREBUS, CHIMERA, VAMPIRE
+		     3F:(WYVERN,WYRM), (Saber T,MEDUSA), Blue D, CATMAN,
+			CEREBUS, VAMPIRE, (WzMUMMY,MUMMY,COCTRICE,PERILISK)
+		     4F:BADMAN, GrMEDUSA, (GrNAGA,AIR), EYE, SLIME
+		     5F:CHIMERA, RockGOL, (GrNAGA,AIR), (NITEMARE,EVILMAN),
+			EYE, GrMEDUSA, MANTICOR
+		     6F:R.HYDRA, (MANCAT,MEDUSA), MANTICOR, WzVAMP, SENTRY,
+			CHIMERA, RockGOL
+		     7F:(MANCAT,MEDUSA), AIR, WzVAMP, (GUARD,SENTRY), NAOCHO,
+			(MudGOL,SORCEROR)
+		     8F:R.HYDRA, SLIME, NAOCHO, WarMECH, (MudGOL,SORCEROR)
+
+Temple of Fiends:    3F:(MAGE,FIGHTER), Gas D, BADMAN
+  (revisited)	     2F:(FrGIANT,FrWOLF), Zombie D, SLIME, (CHIMERA,JIMERA)
+	(entrance)-> 1F:WORM, Frost D, CHIMERA
+		     B1:EARTH, (MudGOL,RockGOL), GrMEDUSA
+		     B2:FIRE, Grey W, (R.GIANT,AGAMA)
+		     B3:WATER, (GrSHARK,WzSHARK), (SeaTROLL,LOBSTER,SeaSNAKE)
+		     B4:AIR, RockGOL, WORM, (WzVAMP,VAMPIRE), IronGOL,
+			(Zombie D, WzVAMP), SORCEROR, (NITEMARE,EVILMAN)
+		     B5:nothing*
+
+(* excepting, of course, the end of all life as you know it)
+
+
+
+- - - - - - - - - - - the ACTIONS AVAILABLE in BATTLE: - - - - - - - - - - - -
+
+FIGHT: attack an enemy
+DRINK: use a HEAL or PURE potion on another warrior
+MAGIC: cast magic
+ITEM: use an item in that warrior's weapons or armor inventory as an item in
+	battle.  Using items in this way doesn't destroy the item.  It is not
+	necessary to equip the item or even to be able to equip it in order
+	for a warrior to be able to use it as an item
+RUN: run away from battle.  If any warrior in your party does this
+	successfully, your entire party escapes
+
+all actions which end up being targeted to dead or stoned characters are
+ineffective.  Any action which is ineffective still uses the resources put
+into the action, such as a spell charge or potion.  An action which is
+interrupted due to incapacitation of the actor or early termination of battle
+is considered to have never happened, and thus the resources put into it are
+not wasted
+
+
+
+- - - - - - - - HOW MONSTERS CHOOSE THEIR ATTACK STRATEGIES: - - - - - - - - -
+
+for each action, a monster may do one of four things: ATTACK, use MAGIC, use a
+special attack, or RUN.  If the monster doesn't run away, it chooses among the
+other three options by a process I'm not sure of
+
+if it chooses to attack, it chooses a target warrior
+
+if it chooses to use magic(if it has that capability), it casts the next spell
+available in its cycle.  Each monster has a unique circular list of magic
+spells that always begins in the same place.  For example, the monster WzVAMP
+uses the (AFIR,MUTE,ICE2,ICE2,LIT2,LIT2,FIR2,FIR2,...) magic cycle.  This
+means that the first time WzVAMP casts magic, it will always be AFIR.  The
+next time it casts a spell, it will cast MUTE.  After it gets around to the
+second FIR2 spell, the WzVAMP would begin anew with AFIR (the next time it
+chose to cast magic).  The monster's current position in its magic cycle is
+completely independent of its current position in its special attack cycle
+
+if it chooses to launch a special attack(if it has this capability), it does
+the next one available in its cycle of special attacks.  This cycle works just
+like the magic cycle.  Both cycles may run simultaneously but they don't
+affect each another.  For example, TIAMAT (the temple of fiends version) has
+the magic cycle (BANE,ICE2,LIT2,FIR2,...) and the special attack cycle
+(THUNDER,POISON,BLIZZARD,BLAZE,...).  If the monster chose the strategy:
+A,S,M,M,S,M,A,A,M,M, then it would attack, use THUNDER, cast BANE, cast ICE2,
+use POISON, cast LIT2, attack, attack, cast FIR2, and cast BANE
+
+if the action was an attack, or a magical or a special attack that was
+directed towards a single warrior, the monster generates a random number,
+x = (1..8).  If x:(1..4) the target of the attack is the warrior in front.  If
+x:(5..6), the target is the second warrior.  x = 7 is the third warrior and
+x = 8 is the fourth warrior.  If the target chosen in this way is dead or
+stone at the time of the choosing, choose x again
+
+
+
+- - - - - - - - - HOW DAMAGE IS CALCULATED FROM AN ATTACK: - - - - - - - - - -
+
+if the attacker is a warrior, the maximum number of hits that can be landed
+per attack is
+
+N(h) = [H%/32]+1 for all classes, except...
+     = 2 x ([H%/32]+1) for an unarmed Bb/Ma
+
+when the attacker is an enemy, I presume it works the same way, but since I
+have no way to test this, for each enemy I just give the value of N(h)
+
+now, as some function of the attacker's H% and the defender E%, some of the
+hits may be dodged... I don't know how this works
+
+for each hit that gets through, damage done = (D..Dx2) - A, using the
+attacker's D and the defender's A.  If the attacker is an enemy, there may be
+a special effect when a hit is landed on a target warrior such as hit to stun,
+hit to slay, etc...  I'm not sure what the chances of this happening are
+either, but it is determined independently for each hit, so the more hits that
+are made, the greater the chance that the defender will be afflicted with
+something.  For any hit which does damage<1, damage done=1.  Now, if by chance
+the hit was a critical hit, add Dx2 to the damage done.  I'm not sure what the
+chances of getting critical hits are, but it increases with LV and basic
+stats.  Getting a critical hit at least once per attack is in fact pretty hard
+to avoid in the later stages of the game
+
+
+
+- - - - - HOW DAMAGE IS CALCULATED FROM MAGIC OR A SPECIAL ATTACK: - - - - - -
+
+every magical or special attack that does damage has a base power, call it M.
+From this, the actual damage done = ([M/4]..M).  This damage cannot be
+absorbed with armor.  If the target is resistant to the attack, damage done =
+([M/8]..[M/4])*.  If the target is weak against the attack, damage done =
+([3M/8]..[3M/2]).  Magical and special attacks which inflict damage never miss
+
+*BUG: if a target is weak vs. a certain elemental, giving that target
+	resistance has no effect - damage done is still applied as if the
+	target was weak vs. that elemental.  For example, if a WzVAMP casts
+	AFIR on a VAMPIRE, the VAMPIRE will still take extra damage from fire
+
+
+
+- - - - - - - - - - - - HOW XP AND GOLD IS REWARDED: - - - - - - - - - - - - -
+
+XP gained from battle is the direct sum of all XP values of monsters killed.
+If there are N warriors which are not stoned or dead, each one of them gets
+[(total XP)/N] experience points.  if this number = 0, XP gained = 1.  If XP
+for any warrior exceeds 999999 at any time, XP = 999999
+
+GOLD gained from battle is the direct sum of the GOLD values of all monsters
+killed.  This is added to the party's GOLD supply.  If the GOLD supply exceeds
+999999 at any time, GOLD = 999999
+
+
+
+- - - - - - RELATIVE SPEEDS OF VARIOUS VEHICLES ON THE WORLD MAP: - - - - - -
+
+walking ( = canoe speed)	= 2.1 steps/second
+shipspeed 			= 7.5 steps/second
+airspeed			= 15 steps/second
+
+
+
+- - - - - - - - - CONDITION FOR STOOPING OVER IN BATTLE: - - - - - - - - - - -
+
+if a warrior's HP<[MHP/4], that warrior will adopt a kneeling posture
+
+
+
+
+================================ 2:CONDITIONS ================================
+
+so far as I know, there are 7 conditions which show up as a status ailments
+during battle.  In order of those of increasing severity towards the bottom of
+the list, they are:
+			MUTE (silenced)
+			ASLEEP (asleep)
+			STUN (paralyze)
+			DARK (darkness)
+			POISON (poison)
+			STONE (stone)
+			'    ' (slain)(dead)
+
+The condition which will be listed on the status line will be the most severe
+one.  Some of these conditions are not permanent and disappear at the end of
+battle: these will be denoted 'nP'.  Others are permanent and stay with the
+warrior until the condition is remedied, even if the warrior visits an inn or
+saves and reloads: these are denoted with 'Pm'.  Any warrior which finishes a
+battle with a permanent condition such as POISON, STONE, or death is
+automatically switched with the warrior in the back of the party
+
+MUTE(nP): all ITEM, MAGIC, and DRINK actions of a muted warrior will be
+	ineffective (including the AMUT spell).  All magical or special
+	attacks of a muted enemy will be ineffective
+ASLEEP(nP): a warrior or enemy that is ASLEEP may only take action to try to
+	break out of this condition.  A sleeping warrior will stoop over
+STUN(nP): same as being ASLEEP
+DARK(nP): seems to have no effect
+POISON(Pm): outside of battle, a poisoned warrior will lose 1 HP with every
+	step, whether the step is taken inside or outside (HP may not sink
+	below 1 from this)(this damage is taken in addition to every HP
+	that is lost from stepping onto a damage square).  In battle, the
+	warrior loses 2 HP every round and may die because of this.  A
+	poisoned warrior will stoop over
+STONE(Pm): a stoned warrior may take no actions and may not be the target of
+	enemy actions.  A stoned enemy dies instantly.  If all warriors become
+	STONE or dead, your party perishes.  Stoning a warrior removes POISON
+(slain)(Pm): a dead warrior may take no actions and may not be the target of
+	enemy actions. Killing a warrior removes POISON.  To be dead is to lie
+	face to the ground.  Death automatically sets HP = 0
+
+
+- - - - - - - - - - - - - - RESURRECTION and INN RATES - - - - - - - - - - - -
+
+costs for staying at an inn to restore all SL charges and HP for all warriors
+(that are not stoned or dead) remains constant at a given location, no matter
+what levels your warriors are at.  Resurrection is the same as casting the
+LIFE spell on the dead warrior, and the cost of this also remains constant
+throughout the game at any given location
+
+Town: 	Coneria  Pravoka  Elfland  Melmond  CrescentLake  Onrac  Gaia  Lefein
+
+RESURRECTION 40       80      200      ---        400       750   750    ---
+INN	     30       50      100      100        200       300   500    ---
+
+
+
+
+================================== 3:MAGIC ===================================
+
+the capability to buy a particular magic spell for use in casting is
+determined by character class.  The classes which are eligible to learn the 
+spell are listed in the 'Who' column.  Some spells have different effects
+based on whether combat is ensuing or not.  'Cb' in the 'Use' column means
+that the described effect only happens if the spell is cast in combat.  'nC'
+means that the effect only happens outside of combat.  If there is no 'Cb'
+for a given spell and you attempt to cast it in combat, the spell will be
+ineffective.  FF1 will not allow you to cast a 'Cb' spell outside of combat
+
+damages listed in the 'Use' column are base magic powers.  Damages inflicted
+from actual use are determined in the way explained in section 1.  An
+elemental listed before the base power of the spell means that the spell
+has that element associated with it.  i.e.: F20 means a power 20 magical fire
+attack
+
+- - - - - - - - - -  - - - - - - - WHITE MAGIC - - - - - - - - - - - - - - - -
+
+-SL 1-	Who		Cost	Use
+CURE	Kn/Rm/Rz/Wm/Wz	100	Restore (16..32)HP to a single warrior(nC/Cb)
+HARM		 Wm/Wz	100	80 to all undead enemies(Cb)
+FOG	Kn/Rm/Rz/Wm/Wz	100	boost a warrior's A by 8(may be repeated)(Cb)
+RUSE	Kn    Rz/Wm/Wz	100	boost your own E% by 40% (repeatable)(Cb)
+
+-SL 2-
+LAMP	Kn/Rm/Rz/Wm/Wz	400	removes dark from one warrior(Cb)
+MUTE	Kn/Rm/Rz/Wm/Wz	400	mute all enemies(Cb)
+ALIT	Kn/Rm/Rz/Wm/Wz	400	give all warriors resistance to lightning(Cb)
+INVS	Kn/Rm/Rz/Wm/Wz	400	boost a warrior's E% by 20% (repeatable)(Cb)
+
+-SL 3-
+CUR2	Kn/Rm/Rz/Wm/Wz	1500	restore (32..64)HP to a single warrior(nC/Cb)
+HRM2		 Wm/Wz	1500	160 to all undead enemies(Cb)
+AFIR	Kn/Rm/Rz/Wm/Wz	1500	give all warriors resistance to fire(Cb)
+HEAL		 Wm/Wz	1500	restore (12..24)HP to all warriors in equal
+				  amounts(nC), restore (6..24) to each warrior
+				  independently(Cb)
+-SL 4-
+PURE	   Rm/Rz/Wm/Wz	4000	remove poison from one warrior(nC/Cb)
+FEAR		 Wm/Wz	4000	induce enemies to run away(Cb)
+AICE	   Rm/Rz/Wm/Wz	4000	give all warriors resistance to ice(Cb)
+AMUT	      Rz/Wm/Wz	4000	removes mute from one warrior(Cb)
+
+-SL 5-
+CUR3	   Rm/Rz/Wm/Wz	8000	restore (64..128)HP to a single warrior(nC/Cb)
+LIFE	      Rz/Wm/Wz	8000	removes death from one warrior, sets HP=1(nC)
+HRM3		 Wm/Wz	8000	240 to all undead enemies(Cb)
+HEL2		 Wm/Wz	8000	restore (24..48)HP to all warriors in equal
+				  amounts(nC), restore (48..96)HP to each
+				  warrior independently(Cb)*
+
+*BUG: this spell is quite a bargain, considering that you get the power of
+	a HEL3 spell in a SL-5 slot!
+
+-SL 6-
+SOFT		 Wm/Wz	20000	remove stone from one warrior(nC)
+EXIT	      Rz    Wz	20000	jump outside of a monster lair to the point
+				  on the world map from which you entered the
+				  lair(nC)
+FOG2	      Rz/Wm/Wz	20000	boost all warriors' A by 12(repeatable!)(Cb)
+INV2	      Rz/Wm/Wz	20000	boost all warriors' E% by 40% (repeatable)(Cb)
+
+-SL 7-
+ARUB	      Rz/Wm/Wz	45000	gives all warriors immunity to RUB,SQUINT, and
+				  XXXX(Cb)
+HEL3		 Wm/Wz	45000	restore (48..96)HP to all warriors in equal
+				  amounts(nC), restore (48..96)HP to each
+				  warrior independently(Cb)
+CUR4		    Wz	45000	restore one warrior to MHP(nC/Cb)
+HRM4		    Wz	45000	320 to all undead enemies(Cb)
+
+-SL 8-
+FADE		    Wz	60000	320 to all enemies(Cb)
+WALL		    Wz	60000	give one warrior resistance to F,I,L, and P,
+				  as well as immunity to RUB,XXXX,SQUINT,BRAK,
+				  GLANCE,HOLD,SLOW,SLO2,SLEP,GAZE,MUTE(Cb)
+XFER		    Wz	60000	removes special immunities granted by armor
+				  and spells from a single target(Cb)
+LIF2		    Wz	60000	remove death from one warrior and restore to
+				  MHP(nC)
+
+
+- - - - - - - - - - - - - - - - - BLACK MAGIC - - - - - - - - - - - - - - - -
+
+-SL 1-	Who		Cost	Use
+FIRE	Ni/Rm/Rz/Bm/Bz	100	F40 to a single enemy(Cb)
+LIT	Ni/Rm/Rz/Bm/Bz	100	L40 to a single enemy(Cb)
+SLEP	Ni/Rm/Rz/Bm/Bz	100	make all enemies asleep(Cb)
+LOCK	Ni/Rm/Rz/Bm/Bz	100	no effect(Cb)
+
+-SL 2-
+ICE	Ni/Rm/Rz/Bm/Bz	400	I80 to a single target(Cb)
+DARK	Ni/Rm/Rz/Bm/Bz	400	darkness to all enemies(Cb)
+TMPR	Ni/Rm/Rz/Bm/Bz	400	no effect(Cb)
+SLOW	Ni/Rm/Rz/Bm/Bz	400	divide target's H% by 2 (ineffective if H%
+				  is already half its normal value)(Cb)
+
+-SL 3-
+FIR2	Ni/Rm/Rz/Bm/Bz	1500	F120 to all enemies(Cb)
+LIT2	Ni/Rm/Rz/Bm/Bz	1500	L120 to all enemies(Cb)
+HOLD	Ni/Rm/Rz/Bm/Bz	1500	stun one enemy(Cb)
+LOK2	Ni/Rm/Rz/Bm/Bz	1500	boost the E% of all enemies by 20%(Cb)
+
+-SL 4-
+ICE2	Ni/Rm/Rz/Bm/Bz	4000	I160 to all enemies(Cb)
+FAST	Ni/Rm/Rz/Bm/Bz	4000	double a single warrior's H% (ineffective if
+				  H% is already twice its normal value)(Cb)
+CONF	Ni/Rm/Rz/Bm/Bz	4000	confuse all enemies so that they attack each
+				  other(Cb)
+SLP2	Ni/Rm/Rz/Bm/Bz	4000	put one enemy to sleep(Cb)
+
+-SL 5-
+FIR3	   Rm/Rz/Bm/Bz	8000	F200 to all enemies(Cb)
+SLO2	   Rm/Rz/Bm/Bz	8000	same as SLOW, directed to one enemy(Cb)
+WARP	      Rz    Bz	8000	jump back to the previous floor in a monster
+				  lair.  It you are on the first floor, then
+				  the effect is the same as EXIT(nC)
+BANE	   Rm/Rz/Bm/Bz	8000	slay all enemies(Cb)
+
+-SL 6-
+LIT3	      Rz/Bm/Bz	20000	L240 to all enemies(Cb)
+RUB		 Bm/Bz	20000	slay one enemy(Cb)
+QAKE		 Bm/Bz	20000	slay all enemies(Cb)
+STUN		 Bm/Bz	20000	guaranteed stun of one enemy with MHP<=300.
+				  Ineffective if target's MHP>300(Cb)
+-SL 7-
+ICE3	      Rz/Bm/Bz	45000	I280 to all enemies(Cb)
+BRAK		    Bz	45000	stone one enemy(Cb)
+SABR		    Bz	45000	no effect(Cb)
+BLND		 Bm/Bz	45000	darkness to a single enemy(Cb)
+
+-SL 8-
+STOP		    Bz	60000	strongly stun all enemies(Cb)
+ZAP!		    Bz	60000	slay all enemies(Cb)
+XXXX		    Bz	60000	slay one enemy(Cb)
+NUKE		    Bz	60000	400 to all enemies(Cb)
+
+
+
+
+================================== 4:ITEMS ===================================
+
+- - - - - - - - - - - - - - - - - WEAPONS - - - - - - - - - - - - - - - - - -
+
+contrary to what nintendo power says, weapons have no elemental attributes or
+race multipliers in FF1.  i.e. the flame sword deals no extra damage to a
+Frost D and the coral sword deals no extra damage against SHARKs.  Most
+of the 'specialty' swords are actually completely useless and should be sold
+immediately when they are found.  Weapons may have abilities when they are
+used as items; this info is listed in the 'Use' column as the spell which has
+the same effect.  Cost represents resale value, which is half of the buying
+price if the weapon can be bought.  If the weapon can't be bought, there will
+be a '!' after the resale value.
+
+Weapons		Who			Cost		+D	+H%	Use
+
+BANE(sword)	Kn/Ni/Rz		30000 !		22	20	BANE
+CATCLAW		Kn/Ni/Rz/Bz		32500		22	35	
+CORAL(sword)	Fi/Kn/Th/Ni/Rm/Rz	4000  !		19	15
+DEFENSE(sword)	Kn/Ni/Rz		20000 !		30	35	RUSE
+DRAGON(sword)	Fi/Kn/Th/Ni/Rm/Rz	4000  !		19	15
+
+FALCHON		Fi/Kn/Th/Ni/Rm/Rz	225		15	10
+FLAME(sword)	Fi/Kn/Ni/Rm/Rz		5000  !		26	20
+GIANT(sword)	Fi/Kn/Ni/Rm/Rz		4000  !		21	20
+GREAT(axe)	Fi/Kn/Ni		1000  !		22	5
+HAND(axe)	Fi/Kn/Ni		275		16	5
+
+HEAL(staff)	Ni/Wm/Wz		12500 !		6	0	HEAL
+ICE(sword)	Fi/Kn/Ni/Rm/Rz		7500  !		29	25
+IRON(hammer)	Fi/Kn/Ni/Wm/Wz		5		9	0
+IRON(nunchuck)	Ni/Bb/Ma		100		16	0
+IRON(staff)	Fi/Kn/Ni/Bb/Ma		100		14	0
+
+KATANA		Ni			30000 !		33	35
+LARGE(dagger)	Fi/Kn/Th/Ni/Rm/Rz/Bm/Bz 87		7	10
+LIGHT(axe)	Fi/Kn/Ni		5000  !		28	15	HRM2
+LONG(sword)	Fi/Kn/Ni/Rm/Rz		750		20	10
+MAGE(staff)	Ni/Bm/Bz		12500 !		12	10	FIR2
+
+MASMUNE		all classes		30000 !		56	50
+POWER(staff)	all except Th,Rm,Rz	6172  !		12	0
+RAPIER		Fi/Kn/Th/Ni/Rm/Rz	5		9	5
+RUNE(sword)	Fi/Kn/Th/Ni/Rm/Rz	2500  !		18	15
+SABRE		Fi/Kn/Th/Ni/Rm/Rz	225		13	5
+
+SCIMITAR	Fi/Kn/Th/Ni/Rm/Rz	100		10	10
+SHORT(sword)	Fi/Kn/Ni/Rm/Rz		275		15	10
+SILVER(axe)	Fi/Kn/Ni		2250		25	10
+SILVER(hammer)	Fi/Kn/Ni/Wm/Wz		1250		12	5
+SILVER(dagger)	Fi/Kn/Th/Ni/Rm/Rz/Bm/Bz	400		10	15
+
+SILVER(sword)	Fi/Kn/Ni/Rm/Rz		2000		23	15
+SMALL(dagger)	all except Bb,Ma	2		5	10
+SUN(sword)	Fi/Kn/Ni/Rm/Rz		10000 !		32	30
+THOR(hammer)	Kn/Ni/Wz		20000 !		18	15	LIT2
+VORPAL		Kn/Ni/Rz		15000 !		24	25
+
+WERE(sword)	Fi/Kn/Ni/Rm/Rz		3000  !		18	15
+WIZARD(staff)	Bz			25000 !		15	15	CONF
+WOODEN(nunchuck)Ni/Bb/Ma		5		12	0
+WOODEN(staff)	all classes		2		6	0
+XCALBER(sword)	Kn			30000 !		45	35
+
+
+
+- - - - - - - - - - - - - - - - - - - ARMOR - - - - - - - - - - - - - - - - -
+
+armors may have special abilities, such as granting the wearer automatic
+resistance to certain elements, or immunities to certain spells.  resistances
+are denoted by an 'r' before the element.  i.e. rF means that the armor grants
+resistance to fire.
+
+In addition, some armors can be used as items in battle.  This info is all
+listed in the 'Use/special' column.  Most armors decrease E% somewhat, so all
+E% values listed are negative.  There are four types of armor: armor(A),
+shirt(T), and bracelet(B)(all three are types of body armor), shield(S),
+hat(H), and gauntlets(G).  What kind of armor that each piece is is listed in
+the 'Armor/Type' column
+
+Armor/Type 	Who			Cost	A	-E%	Use/special
+AEGIS	S	Kn			20000!	16	0	rP, stops
+						       POISON(jimera),STINGER
+BLACK	T	Bz			1    !	24	2	ICE2
+BUCKLER	S	Fi/Kn/Th/Ni/Rm/Rz	1250	2	0
+CAP	H	all except Bb,Ma	40	1	1
+CHAIN	A	Fi/Kn/Ni/Rm/Rz		40	15	15
+
+CLOTH	A	all classes		5	1	2
+COPPER	B	all classes		500	4	1
+COPPER	G	Ki/Kn/Ni		200	2	3
+DRAGON	A	Kn			30000!	42	10
+FLAME	A	Fi/Kn/Ni		1500 !	34	10	rI
+
+FLAME	S	Fi/Kn/Ni		5000 !	12	0	rI
+GLOVES	G	all classes		30	1	1
+GOLD	B	all classes		25000	24	1
+HEAL	H	Kn/Ni			10000!	6	3	HEAL
+ICE	A	Fi/Kn/Ni		15000!	34	10	rF
+
+ICE	S	Fi/Kn/Ni		5000 !	12	0	rF
+IRON	A	Fi/Kn/Ni		400	24	23
+IRON	G	Fi/Kn/Ni		375	4	5
+IRON	H	Fi/Kn/Ni		225	5	5
+IRON	S	Fi/Kn/Ni		50	4	0
+
+OPAL	A	Kn			30000!	42	10	rL
+OPAL	B	all classes		32500!	34	1
+OPAL	G	Kn			10000!	8	3
+OPAL	H	Kn			5000 !	8	3
+OPAL	S	Kn			7500 !	16	0	rL
+
+POWER	G	Fi/Kn/Ni/Rz		5000 !	6	3	SABR
+PROCAPE	S	all except Bb,Ma	10000!	8	2	stops XXXX,
+						   		   RUB,SQUINT
+PRORING	G	all classes		10000	8	1	stops XXXX,
+								   RUB,SQUINT
+RIBBON	H	all classes		1    !	1	1	rF,rI,rL,rP,
+		  stops FLASH,HOLD,GLANCE,DARK,INK,STINGER,POISON(jimera),STOP
+SILVER	A	Fi/Kn/Ni/Rm/Rz		3750	18	8
+
+SILVER	B	all classes		2500	15	1
+SILVER	G	Fi/Kn/Ni/Rz		1250	6	3
+SILVER	H	Fi/Kn/Ni		125	6	3
+SILVER	S	Fi/Kn/Ni		1250	8	0
+STEEL	A	Fi/Kn			22500	34	33
+
+WHITE	T	Wz			1    !	24	2	INV2
+WOODEN	A	Fi/Kn/Th/Ni/Bb/Ma/Rm/Rz	25	4	8
+
+WOODEN	H	Fi/Kn/Ni		50	3	3
+WOODEN	S	Fi/Kn/Ni		7	2	0
+ZEUS	G	Kn/Ni/Rz		7500 !	6	3	LIT2
+
+
+
+- - - - - - - - - - - - - - - - - OTHER ITEMS - - - - - - - - - - - - - - - -
+
+items listed here are not carried by any one paricular character and thus have
+a storage place other than that of either weapons or armors.  Following my
+convention in the armor section, 'nC' denotes a use outside of combat, and
+'Cb' is for the use of the item if it is used during combat
+
+What	Cost	Use
+
+HEAL	60	CURE(Cb), one warrior recovers 30 HP(nC)
+PURE	75	PURE(nC/Cb)
+SOFT	800	SOFT(nC)
+
+(TENT, CABIN, and HOUSE may only be used outside):
+TENT	75	all warriors recover 30 HP, and then the option to save the
+		  game is given(nC)
+CABIN	250	all warriors recover 60 HP, and then the option to save the
+		  game is given(nC)
+HOUSE	3000	all warriors recover 120 HP, and then the option to save the
+		  game is given; if the game was saved, all warriors then
+		  recover all of their SL charges(nC)*
+
+*BUG: magic is not restored until after the game is saved, so the benefits
+	of using the HOUSE are not saved;  if you reload the game, it will
+	go back to the point before all SL charges were restored, and thus
+	you will have wasted a HOUSE.  To avoid this, save the game twice by
+	using a TENT or CABIN immediately after using the HOUSE.  If you have
+	to reload later, you will then return to a point where you had full
+	magic power
+
+
+- - - - - - - - - - - - - - - - SPECIAL ITEMS: - - - - - - - - - - - - - - - -
+
+What	Use					Comments
+
+LUTE	opens a path to the lower levels	recieved as a gift after you
+	  when you revisit the temple		  rescue the Princess from
+	  of fiends				  GARLAND
+CROWN	allows you to fight ASTOS		found on B3 of the Marsh Cave
+CRYSTAL	trade to Matoya for the HERB		recieved after defeating ASTOS
+HERB	wake the Elf Prince			see CRYSTAL
+KEY	opens certain locked chests		recieve from the Elf Prince
+						  after waking him with the
+						  HERB
+TNT	give to a dwarf to open a canal		found in a locked treasure
+						  chest at Castle Coneria
+RUBY	give to the Titan to pass him		found on B3 of the Earth Cave
+ROD	opens a path to the lower levels	receive from Sarda who is
+	  of the Earth Cave			  beyond the Titan's Tunnel
+FLOATER	uncovers the AIRSHIP when used in	found on B2 of the Ice Cave,
+	  the desert south of Crescent Lake	  but only if you have talked
+						  to a man in Crescent Lake
+						  after you defeat KARY
+TAIL	if given to Bahamut, all warriors	found on 3F of the Castle of
+	  will recieve a promotion		  Ordeal
+BOTTLE	releases a fairy			buy for 50,000 gold at the
+						  Oasis
+OXYALE	allows entry into the Sea Shrine	recieve from the freed fairy
+	  (it's not necessary to have this	  at the pond in Gaia
+	  to enter the Waterfall)
+SLAB	give to Dr.Unne in Melmond to		found on 2F of the Sea Shrine
+	  learn the Lefeinish language
+CHIME	allows entry into the Mirage Tower	recieve from a man in Lefein
+CUBE	allows entry into the Sky Castle	found at the Waterfall
+ADAMANT	if given to a dwarven blacksmith,	found on 5F of the Mirage
+	  you will get the XCALBER sword	  Tower/Sky Castle
+
+
+
+- - - - - - - - - - - - - - - - - - VEHICLES - - - - - - - - - - - - - - - - -
+
+SHIP	travels on the open sea, but you	recieve from defeating the
+	  may only disembark onto a port(or	  PIRATEs in Pravoka
+	  river if you have a CANOE)*.  This
+	  is not carried with you when you
+	  walk on the world map
+CANOE	travels on the river, and is carried	recieve from the sages in 
+	  with you wherever you walk		  Crescent Lake after beating
+						  LICH in the Earth Cave
+AIRSHIP travels anywhere, but it may only	found in the desert south of
+	  land on grassland squares.  This is 	  Crescent Lake if you use
+	  not carried with you when you walk	  the FLOATER there
+
+(* if you have a CANOE and a SHIP, it is possible to visit the Castle of
+	Ordeal before you get the AIRSHIP, although this doesn't help much
+	since you can't reach Bahamut without the AIRSHIP.  In any case, the
+	equipment there may improve your chances in the Ice Cave)
+
+
+
+
+================================= 5:ENEMIES =================================
+
+- - - - - - - - - - - - - - - SPECIAL ATTACKS - - - - - - - - - - - - - - - -
+
+as is described in the battle algorithm section, some monsters have the
+capabilities to launch special attacks.  There are two attacks that are called
+POISON but which have different effects.  One of them is used only by JIMERA
+and is labelled as such.  Effects are explained using the same conventions as
+in the magic section
+
+What		Effect
+
+BLAZE		F220 to all warriors
+BLIZZARD	I200 to all warriors
+CREMATE		F100 to all warriors
+CRACK		slay all warriors
+DAZZLE		stun one warrior
+
+FLASH		darkness to all warriors
+FROST		I100 to all warriors
+GAZE		stun one warrior
+GLANCE		stone one warrior
+HEAT		F50 to all warriors
+
+INFERNO		F384 to all warriors
+INK		darkness to all warriors
+NUCLEAR		400 to all warriors
+POISON		P260 to all warriors
+POISON(jimera)	poison all warriors
+
+SCORCH		F30 to all warriors
+SNORTING	darkness to one warrior
+SQUINT		slay one warrior
+STARE		80 to one warrior
+SWIRL		256 to all warriors
+
+STINGER		poison all warriors
+THUNDER		L300 to all warriors
+TRANCE		stun all warriors
+
+
+
+- - - - - - - - - - - - - - - - - ENEMY STATS - - - - - - - - - - - - - - - -
+
+the 'D' column has info about the basic attack power of the enemy, the number
+of hits it makes per attack, and special effects of the attack, such as: hit
+to stun(S), hit to sleep(A), hit to poison(P), hit to put in darkness(D), hit
+to stone(T), and hit to slay(K).  For example, K:1x9 means that the enemy
+attacks with 9 hits, each hit having a damage base of 1 and having the
+capability of slaying the target instantly (this would be a pretty nasty
+attack)
+
+the 'Strategy' column tells what extra actions are available to the enemy
+(magic(M), or special attack(S)) and the cycle(s) that the monster
+follows, as explained in the battle algorithms section.  All enemies have the
+option to attack
+
+the 'Weak/Immune' column refers to spells and elements which the enemy is
+especially vulnerable to.  i.e. wL means the enemy is weak vs. lightning
+attacks, and w(STUN,SLEP) means that the enemy is especially vulnerable to
+the spells of STUN and SLEP.  Also listed are element which the enemy resists,
+and spells which are ineffective against that enemy.  For example, rI means
+the enemy resists ice attacks and i(BANE) means that the enemy is immune to
+BANE.  All undead enemies have weak/immune of wF,rI,i(RUB,BANE,BRAK,STUN,SLEP)
+as is denoted in shorthand by a '#' in this column
+
+
+Ref#:What      MHP   D     A     XP/GOLD  STRATEGY	   WEAK/IMMUNE
+------------------------------------------------------------------------------
+
+1a:IMP		8    4     4      6/6
+ b:GrIMP	16   8     6     18/18
+
+2a:WOLF		20   8     0      6/24
+ b:GrWOLF	72   14    0     93/22
+ c:WrWOLF	68   P:14  6    135/67
+ d:FrWOLF	92   25    0    402/200   S(FROST...)	   wF,rI
+
+(undead):
+3a:ZOMBIE	20   10    0     24/12			   #
+ b:GHOUL	48   S:8x3 6     93/50			   #
+ c:GEIST	56   S:8x3 10   117/117			   #,i(SLOW)
+ d:SPECTER	52   S:20  12   150/150			   #
+
+(undead):
+4a:BONE		10   10    0      9/3			   #
+ b:R.BONE	144  26    12   378/378			   #
+
+5a:SPIDER	28   10    0     30/8
+ b:ARACHNID	64   P:5   12   141/50
+
+6a:CREEP	56   17    8     63/15			   wF
+ b:CRAWL	84   S:1x8 8    186/200
+
+7a:GARGOYLE	80   12x4  8    132/80			   i(QAKE)
+ b:R.GOYLE	94   10x4  32   387/387			   rI,rF,i(QAKE)
+					  M(FIR2,HOLD,FIRE,FIRE...)		
+				  
+
+8a:GARLAND	106  15    10   130/250
+
+9a:MADPONY	64   10x2  2     63/15
+ b:NITEMARE	200  30x3  24  1272/700   S(SNORTING...)   wI,rF,i(QAKE,
+							RUB,BANE,STUN,SLEP)
+
+10a:IGUANA	92   18    12   153/50
+  b:AGAMA	296  31x2  18  2472/1200  S(HEAT...)	   wI,rF
+  c:SAURIA	196  30    18  1977/658   S(GLANCE...)	   w(MUTE)
+
+
+------------------------------------------------------------------------------
+Ref#:What      MHP   D     A     XP/GOLD  STRATEGY	   WEAK/IMMUNE
+------------------------------------------------------------------------------
+
+11a:ASP		56   P:6   6    123/50
+  b:COBRA	80   22    10   165/50
+  c:SeaSNAKE	224  35    8    957/600			   wL,rF,i(QAKE)
+
+12a:OGRE	100  18    10   195/195
+  b:GrORGE	132  23    14   282/300
+  c:WzOGRE	144  22    10   723/723  M(RUSE,DARK,SLEP,HOLD,ICE2...)
+
+13a:PIRATE	6    8     0     40/40
+  b:KYZOKU	50   14    6     60/120			   i(QAKE)
+
+14a:SAHAG	28   10    4	 30/30			   wL,rF,i(QAKE)
+  b:R.SAHAG	64   15    10   105/105			   wL,rF,i(QAKE)
+  c:WzSAHAG	204  47    20   882/882			   wL
+
+15a:OddEYE	10   4     0	 42/10   S(GAZE...)	   wL,rF,i(QAKE)
+  b:BigEYE	304  30x2  16  3591/3591 S(GAZE,FLASH...)  wL,rF,i(QAKE)
+
+16a:SHARK	120  22    0    267/66			   wL,rF,i(QAKE)
+  b:GrSHARK	344  50    8   2361/600			   wL,rF,i(QAKE)
+
+17a:SCORPION	84   P:22  10   225/70
+  b:LOBSTER	148 P:35x3 18   639/300			   wL,rF,i(QAKE)
+
+(undead):
+18a:SHADOW	50   D:10  0	 90/45			   #,i(QAKE)
+  b:IMAGE	86   S:22  4	231/231			   #,i(QAKE)
+  c:WRAITH	114  S:40  12	432/432			   #,i(QAKE)
+  d:GHOST	180  93    30	990/990			   #,i(QAKE)
+
+19a:SCUM	24   P:1   250   84/20			   wI,wF,rL,i(*)
+  b:MUCK	76   30    7    255/70			   wL,rI,rF,i(*)
+  c:OOZE	76   32    250  252/70			   wI,wF,rL,i(*)
+  d:SLIME	156  P:48  250 1101/900			   wF,rI,rL,i(*)
+(* = QAKE,RUB,BANE,BRAK,STUN,SLEP)
+
+20a:WIZARD	84   30x2  16  276/300		  rI,rF,i(BANE,BRAK,STUN,SLEP)
+  b:SORCEROR	112  K:1x3 14  822/999  S(TRANCE...)
+
+
+------------------------------------------------------------------------------
+Ref#:What      MHP   D     A     XP/GOLD  STRATEGY	   WEAK/IMMUNE
+------------------------------------------------------------------------------
+
+21a:ASTOS	168  26    40  2250/2000
+				  M(RUB,SLO2,FAST,FIR2,LIT2,SLOW,DARK,SLEP...)
+  b:MAGE	105  26    36  1095/1095
+				  M(RUB,LIT3,FIR3,BANE,SLO2,FIR3,STUN,LIT3...)
+  c:FIGHTER	200  40    36  3420/3420
+				 M(WALL,XFER,HEL3,FOG2,INV2,CUR4,HEL2,CUR3...)
+
+(undead):
+22a:MUMMY	80   A:30  20   300/300			   #
+  b:WzMUMMY	188  A:43  20   984/1000		   #
+
+23a:TROLL	184  24x3  12   621/621			   wF
+  b:SeaTROLL	216  40    20   852/852			   wL,i(QAKE)
+
+24a:BULL	164  22x2  4    489/489
+(undead):
+  b:ZomBULL	224  40    14  1050/1050		   #
+
+25a:TIGER	132  22x2  8    438/108
+  b:Saber T	200  24x2  8    843/500
+
+26a:GIANT	240  38    10	879/879
+  b:R.GIANT	300  73    20  1506/1506		   wI,rF
+  c:FrGIANT	336  60    16  1752/1752		   wF,rI
+
+27a:EARTH	288  66    20  1536/768			   wF,rI,rL,i(*)
+  b:FIRE	276  50    20  1620/800			   wI,rF,i(*)
+(* = QAKE,RUB,BANE,BRAK,STUN,SLEP)
+
+(undead):
+28a:VAMPIRE	156  76    24  1200/2000  S(DAZZLE...)	   #,i(QAKE)
+  b:WzVAMP	300  S:90  28  2385/3000  S(DAZZLE...)	   #,i(QAKE)
+			         M(AFIR,MUTE,ICE2,ICE2,LIT2,LIT2,FIR2,FIR2...)
+
+(undead):
+29a:LICH	400  40    40  2200/3000		   #
+				 M(ICE2,SLP2,FAST,LIT2,HOLD,FIR2,SLOW,SLEP...)
+  b:LICH*	500  40    48  2000/1    M(NUKE,STOP,ZAP!,XXXX...)   # -> **
+(* = temple of fiends version) (** not weak vs. fire)
+
+30a:PEDE	222  P:39  20  1194/300
+  b:GrPEDE	320  73    25  2244/1000		   wF,rI
+
+
+------------------------------------------------------------------------------
+Ref#:What      MHP   D     A     XP/GOLD  STRATEGY	   WEAK/IMMUNE
+------------------------------------------------------------------------------
+
+31a:HYDRA	212  30x3  14   915/150
+  b:R.HYDRA	182  20x3  14  1215/400   S(CREMATE...)	   rF,wI
+
+32a:CARIBE	92   22    0    240/20			   wL,rF,i(QAKE)
+  b:R.CARIBE	172  37    20   546/46
+
+33a:GATOR	184  42x2  16   816/900			   wL,rF,i(QAKE)
+  b:FrGATOR	142  56x2  20  1890/2000		   wL,rF,i(QAKE)
+
+34a:OCHO	208 P:20x3 24  1224/102			   wL,rF,i(QAKE)
+  b:NAOCHO	344 P:35x3 32  3189/500
+
+35a:HYENA	120  22    4    288/72
+  b:CEREBUS	192  30    8   1182/600   S(SCORCH...)	   rF,wI
+
+36a:PERILISK	44   20    4    423/500   S(SQUINT...)	   wI,rF,i(QAKE)
+  b:COCTRICE	50   T:1   4    186/200			   i(QAKE)
+
+37a:Grey W	280  50    30  1671/400			   wI,rF,i(QAKE)
+  b:Sand W	200  46    14  2683/900   S(CRACK...)	   i(QAKE)
+  c:WORM	448  65    8   4344/1000		   i(QAKE)
+
+38a:Red D	248  75    14  2904/4000  S(BLAZE...)	   wI,rF,i(*)
+  b:Frost D	200  53    10  1701/2000  S(BLIZZARD...)   wF,rI,i(*)
+(undead):
+  c:ZombieD	268  S:56  30  2331/999			   #
+(* = QAKE,BANE,BRAK)
+
+39a:SPHINX	228  23x3  12  1160/1160		   i(QAKE)
+  b:MANTICOR	164  22x2  8   1317/650  S(STINGER...)	   i(QAKE)
+
+40a:KARY	600  40x6  40  2475/3000		   w(STUN,SLEP),rF,rI,
+	       M(FIR2,DARK,FIR2,DARK,FIR2,HOLD,FIR2,HOLD...)   rL,i(BANE,BRAK)
+  b:KARY*	700  50x5  60  2000/1    S(FIR3,RUB...)    w(STUN,SLEP),
+							 rF,rI,rL,i(BANE,BRAK)
+(* = temple of fiends version)
+
+
+------------------------------------------------------------------------------
+Ref#:What      MHP   D     A     XP/GOLD  STRATEGY	   WEAK/IMMUNE
+------------------------------------------------------------------------------
+
+41a:EYE		162  30    30  3225/3225		   i(QAKE)
+   M(XXXX,BRAK,RUB,LIT2,HOLD,MUTE,SLOW,SLEP...),S(GLANCE,SQUINT,GAZE,STARE...)
+(undead):
+  b:PHANTOM	360  S:120 60     1/1			   #,i(QAKE)
+		     M(STOP,ZAP!,XFER,BRAK,RUB,HOLD,MUTE,SLOW...),S(GLARE...)
+
+42a:CATMAN	160 P:30x2 16   780/780
+  b:MANCAT	110 20     30   603/800			   rF,rI,rL,i(QAKE,
+	M(FIR2,SLOW,DARK,SLEP,FIRE,LIT,CURE,SLEP...) 	  BANE,BRAK,STUN,SLEP)
+
+43a:MEDUSA	68   P:20  10   699/699   S(GLANCE...)	   w(MUTE)
+  b:GrMEDUSA	96 S:11x10 14  1218/1218  S(GLANCE...)	   wF,rI,i(QAKE)
+
+44a:WYVERN	212  P:30  12  1173/50			   i(QAKE)
+  b:WYRM	260  40    22  1218/502			   i(QAKE)
+
+45a:R.ANKYLO	256  60x3  36  1428/300
+  b:ANKYLO	352  98    40  2610/1
+
+46a:NAGA	356  P:9   8   2355/2355		   wL,rF,i(QAKE)
+				  M(LIT2,LOCK,SLEP,LIT,LIT2,HOLD,SLOW,DARK...)
+  b:GrNAGA	420  P:7   20  3489/4000 
+				  M(RUSE,MUTE,SLOW,DARK,SLEP,FIRE,LIT,HEAL...)
+
+47a:WATER	300  69    20  1962/800			   wI,rF,i(*)
+  b:AIR		358  53    4   1614/807			   i(*)
+(* = QAKE,RUB,BANE,BRAK,STUN,SLEP)
+
+48a:MudGOL	176  P:64  8   1257/800   M(FAST...)	   rL,rI,rF,i(*)
+  b:RockGOL	200  70    16  2385/1000  M(SLOW...)	   rL,rI,rF,i(*)
+  c:IronGOL	304  93    ?   6717/3000		   rI,rF,i(*)
+(* = QAKE,RUB,BANE,BRAK,STUN,SLEP)
+
+49a:KRAKEN	800  50x8  60  4245/5000  S(INK...)	   wL,rF,i(QAKE)
+  b:KRAKEN*	900  60x8  70  2000/1     M(LIT2...),S(INK...)	 rI,i(QAKE)
+(* = temple of fiends version)
+
+50a:TYRO	480  65    10  3387/502
+  b:T REX	600  115   10  7200/600
+
+
+------------------------------------------------------------------------------
+Ref#:What      MHP   D     A     XP/GOLD  STRATEGY	   WEAK/IMMUNE
+------------------------------------------------------------------------------
+
+51a:GUARD	200 S:25x2 36  1224/400			   i(*)
+  b:SENTRY	400  102   48  4000/2000		   wL,rI,rF,i(QAKE,*)
+(* = RUB,BANE,BRAK,STUN,SLEP)
+
+52a:CHIMERA	300  30x4  20  2064/2500  S(CREMATE...)   wI,rF,i(*)
+  b:JIMERA	350  40x4  20  4584/5000  S(CREMATE,POISON,...) wI,rF,i(*)
+(* = QAKE)
+
+53a:BADMAN	260  44x2  36  1263/1800
+  b:EVILMAN	190  55    28  2700/3000 	    i(RUB,BANE,BRAK,STUN,SLEP)
+					  M(XFER,NUKE,XFER,XXXX,BLND...)
+
+54a:Blue D	454  92    20  3274/2000  S(BLIZZARD...)  wF,rL,i(QAKE)
+  b:Gas D	352  72    20  4068/5000  S(POISON...)	   rI,i(QAKE)
+
+55a:WarMECH	1000 128x2 64 32000/32000 S(NUCLEAR...)
+
+56a:TIAMAT	1000 49x4  64  5496/6000	w(BANE,BRAK),rF,rI,rL,i(QAKE)
+					  S(THUNDER,POISON,BLIZZARD,BLAZE...)
+  b:TIAMAT*	1000 70x4  90  2000/1			   rF,rI,rL,i(QAKE)
+		 M(BANE,ICE2,LIT2,FIR2...),S(THUNDER,POISON,BLIZZARD,BLAZE...)
+(* = temple of fiends version)
+
+57a:CHAOS	2000 100x2 100    0/0			 rI,rF,rL,i(QAKE,BANE,
+  M(ICE3,LIT3,SLO2,CUR4,FIR3,ICE2,FAST,NUKE...)		  BRAK,STUN,SLEP,ZAP!)
+  S(CRACK,INFERNO,SWIRL,TORNADO...)
+
+
+
+- - - - - - - - - - - INDEX of ENEMIES (alphabetical) - - - - - - - - - - - -
+
+AGAMA	 10b	    GATOR.   33a	MANTCORE 39b	    SeaTROLL 23b
+AIR	 47b	    GEIST    3c		MEDUSA   43a	    SENTRY   51b
+ANKYLO	 45b	    GHOST    18d	MUCK     19b	    SHADOW   18a
+ARACHNID 5b	    GHOUL    3b		MudGOL   48a	    SHARK    16a
+
+ASP	 11a	    GIANT    26a	MUMMY    22a	    SLIME    19d
+ASTOS	 21a	    GrPEDE   30b	NAGA     46a	    SORCEROR 20b
+BADMAN	 53a	    GrMEDUSA 43b	NAOCHO   34b	    SPECTER  3d
+BigEYE	 15b	    GrOGRE   12b	NITEMARE 9b 	    SPHINX   39a
+
+Blue D	 54a	    GrIMP    1b		OCHO     34a	    SPIDER   5a
+BONE	 4a	    GrNAGA   46b	OddEYE   15a	    TIAMAT   56a
+BULL	 24a	    GrSHARK  16b	OGRE     12a	    TIAMAT*  56b
+CARIBE	 32a	    GrWOLF   2b		OOZE     19c	    TIGER    25a
+
+CATMAN	 42a	    Grey W   37a	PEDE     30a	    T REX    50b
+CEREBUS	 35b	    GUARD    51a	PERELISK 36a	    TROLL    23a
+CHAOS	 57a	    HYDRA    31a	PHANTOM  41b	    TYRO     50a
+CHIMERA	 52a	    HYENA    35a	PIRATE   13a	    VAMPIRE  28a
+
+COBRA	 11b	    IGUANA   10a	R.ANKYLO 45a	    WarMECH  55a
+COCTRICE 36b	    IMAGE    18b	R.BONE   4b	    WATER    47a
+CRAWL	 6b	    IMP      1a		R.CARIBE 32b	    WrWOLF   2c
+CREEP	 6a	    IronGOL  48c	Red D    38a	    WIZARD   20a
+
+EARTH	 27a	    JIMERA   52b	R.GOYLE  7b	    WzMUMMY  22b
+EVILMAN	 53b	    KARY     40a	R.GIANT  26a	    WzOGRE   12c
+EYE	 41a	    KARY*    40b	R.HYDRA  31b	    WzSAHAG  14c
+FIGHTER	 21c	    KRAKEN   49a	R.SAHAG  14b	    WzVAMP   28b
+
+FIRE	 27b	    KRAKEN*  49b	RockGOL  48b	    WOLF     2a
+Frost D  38b	    KYZOKU   13b	Saber T  25b	    WORM     37c
+FrGATOR	 33b	    LICH     29a	SAHAG    14a	    WRAITH   18c
+FrGIANT	 26c	    LICH*    29b	Sand W  37b	    WYRM     44c
+
+FrWOLF	 2d	    LOBSTER  17b	SAURIA   10c	    WYVERN   44a
+GARGOYLE 7a	    MADPONY  9a		SCORPION 17a	    ZOMBIE   3a
+GARLAND	 8a	    MAGE     21b	SCUM     19a	    ZombieD  38c
+Gas D    54b	    MANCAT   42b	SeaSNAKE 11c	    ZomBULL  24b
+
+
+
+
+============================ 6:TIPS,TRICKS,ETC... ============================
+
+to get to the puzzle game within FF1, board the SHIP and press A,B at the same
+time, 55 times in a row.  You may return to the main game at any time by
+pressing B
+
+to view the entire world map and your location on it, push and hold B, then
+press SELECT.  This only works if you are outside
+
+if you have a Bb/Ma character in your party, the armor BUG explained in the
+algorithms section can be helpful or disastrous.  If your Bb/Ma is at a low
+level, but has a lot of armor on, and you put him in front, the next time he
+gains a level, the BUG will take effect, lowering A to A = LV of the Bb/Ma.
+In other circumstances this bug can work to your benefit: if you want to have
+the advantages of the RIBBON and PRORING for your Bb/Ma but also want a
+reasonably high ABSORB value without having to equip body armor, just equip
+the PRORING and RIBBON and then take a LV up.  As long as you don't check your
+armor screen, the A of your Bb/Ma will be equal to his level.  You will
+also still have space left over for armors that can be used as an items in
+battle.  Just be sure that the armos are all in the proper places before
+taking the LV up
+
+for cheap HP restoration, use TENTs whenever possible near the beginning of
+the game.  Later, collect the HEAL(staff) and 2 HEAL(helmet)s in order to heal
+HP during battles against weak enemies.  And if you can, buy the HEL2 spell.
+Due to the BUG explained in the magic section, this spell has the effects of a
+HEL3 spell if you cast it in battle.  This makes it a very useful spell to
+have during the middle of the game when you fight enemies with strong attacks
+
+due to a BUG in the domain mapping on the world map, it is possible to fight 
+ZomBULLs, FrWOLFs, and other strong enemies at the northernmost tip of the
+peninsula east of Pravoka.  This peninsula is directly south of Lefein and is
+the point of closest approach between the southern and northern continents.
+If you have the spells of FIR2, HRM2, and a bunch of TENTs, you can gain lots
+of GOLD and XP here very quickly early in the game
+
+to gain experience rapidly and safely later in the game (after you have the
+AIRSHIP), first equip all your warriors with PRORINGs.  Now go back to the Ice
+Cave to the point where you found the FLOATER.  As you will remember, this was
+guarded by the EYE.  Since a battle with the EYE always ensues whenever you
+step onto the square before the treasure, you can fight the EYE repeatedly as
+often as you want without having to go anywhere.  With all warriors wearing
+PRORINGs, the XXXX spell that the EYE uses will be ineffective, and you can
+easily kill the EYE with weapon attacks in the first round.  There is some
+danger that one of your warriors will fall prey to GLANCE, but you can protect
+yourself against this as well, if you equip your warriors with RIBBONs.  At
+a rate of four battles won every minute, you can expect to LV up for all
+warriors every ten minutes
+
+IMHO, the RIBBON is easily the most useful piece of armor in FF1.
+There are 3 of them to be found: one in the Waterfall, one on B2 of the Sea
+Shrine, and one on 5F of the Mirage Tower/Sky Castle.  The RIBBON grants the
+wearer automatic resistance to all four elements, and this can mean the
+difference between life and death near the end of the game
+
+
+
+- - - - - - - - - - Pros and Cons of the 6 character classes - - - - - - - - -
+
+Fi/Kn: characters in this class have phenomenonally high A values, thus they
+
+	are good to have in the lead positions where most of the attacks land.
+	They are pretty good at attacking, and have usually have the highest
+	MHP.  They are expensive to equip in the first half of the game, which
+	can really slow down the action, and later on, if you have too many
+	Fi/Kn characters in your party, you may find that you have no free
+	spaces in your weapons and armor inventory to put new stuff.  The Kn
+	class can learn the AFIR and ALIT spells, which are useful sometimes
+
+Bb/Ma: this character class is very cheap to equip and fights incredibly well
+	when UNARMED.  At level 50, a FAST Bb/Ma can theoretically do 20 hits
+	for 8000 points of damage to a single target, and thus kill CHAOS with
+	a single attack!  Open spaces on the inventory screens mean lots of
+	space to put extra armor and weapons that can be used as items or
+	resold.  A Bb/Ma cannot use magic, has a below average armor level,
+	and an above average MHP level
+
+Wm/Wz: this character can use of of the WHITE magic spells and is most useful
+	for restoring HP or preparing defenses in a hurry.  The Wz is much
+	valued for his ability to cast the EXIT, LIFE, and LIF2 spells, which
+	are indispensible for long journeys into monster lairs.  A Wm/Wz has a
+	low attack power and armor level, and an average MHP level
+
+Bm/Bz: this character is very useful for his BLACK magic elemental damage
+	spells in the early parts of the game.  If this magic is used
+	properly, it is possible to defeat bands of enemies much stronger than
+	your own party and thus gain loads of experience very quickly.  The
+	Bm/Bz class can also use FAST, which is very useful against boss type
+	enemies.  A Bm/Bz has a pathetic attack and armor level, as well as
+	very little MHP, making his class the least survivable class there is
+
+Th/Ni: this character has the best chance of trying to RUN away in battle.
+	There isn't much else to say in favor of this class until it gets
+	promoted to the Ni class.  The Ni has an above average armor level and
+	an average attack power.  Like the Kn, you may find that the Ni
+	frequently has no space to carry spare pieces of armor.  The Ni can
+	cast FAST, which helps a little.  The Ni has an average MHP level
+	There are no really good reasons that I can think of to include this
+	class in your party, but if you really want to, it doesn't hurt you
+
+Rm/Rz: this class is just about the most useful spellcaster you can have in
+	your party(but not good enough to be substituted for the Wm/Wz class).
+	The Rm/Rz can cast EXIT, LIFE, HEL2, FAST, all of the elemental damage
+	spells, FOG2, AFIR, AICE, and ALIT, to name a few useful spells.  The
+	Rm/Rz has an average attack power and armor level.  MHP for this class
+	initially rises quickly, but levels off sharply, resulting in a below
+	average MHP level overall.  IMHO, this class is superior to the Bm/Bz
+	class, and unless you really like the idea of being able to cast a
+	spell with the name NUKE, you're better off using this class instead
+
+
+

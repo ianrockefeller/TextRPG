@@ -30,7 +30,7 @@ function World(id) {
     this.isTown = false;
     this.npcs = []; // Player[]
     this.weather = "";
-    this.name = "";
+    this.name = " ";
     this.level = 0; // maybe?
     //this.treasures = [] // Item[]
 }
@@ -320,6 +320,10 @@ $(function() {
 		name = $("#nameInput").val();
 		email= $("#emailInput").val();
 		health = $("#healthInput").val();
+		if(!isInt(health)) {
+			health = 1;
+		}
+
 		mana = 300 - health;
 		
 		if($("#powerRadio").prop("checked", true)) {
@@ -381,7 +385,7 @@ dictionary = {
 			move(worlds[pc.x][pc.y]);			
 		},
 		south: function() {
-			pc.y = (pc.y - 1) % gridSize;
+			pc.y = (pc.y - 1 + gridSize) % gridSize;
 			move(worlds[pc.x][pc.y]);			
 		},
 		east: function() {
@@ -389,7 +393,7 @@ dictionary = {
 			move(worlds[pc.x][pc.y]);
 		},
 		west: function() {
-			pc.x = (pc.x - 1) % gridSize;
+			pc.x = (pc.x - 1 + gridSize) % gridSize;
 			move(worlds[pc.x][pc.y]);
 		},
 		to: function() {
